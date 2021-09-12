@@ -7,19 +7,20 @@ Authority: check the information and update our passports
 VaccinatedOne: get his passport
 
 struct:
-1.mapping(address=>indentity(H/A/O)) to verify his access, used to modifier
+1.mapping(address=>Indentity(H/A/O)) to verify his access, used to modifier
 
 2.mapping(address=>passport)
 
-3.Passport: 
+3.PersonalPassport: 
 address
 name
-mapping(uint (indexOfInjection)=>Injection)
+mapping(uint (indexOfInjection)=>Injection) 
 totalStatus(haventVaccinated, waitingVaccinationAndAuthority, vaccinated)
 
 4.Injection:
 kind
 who accepted (and who injected)
+when
 status(injected, authorithed, outdated)
 
 5.To show specific Auhority the injection he is responsible for and not authorithed 
