@@ -1,0 +1,33 @@
+{
+  "name": "VaccinePassportDapp",
+  "version": "1.0.0",
+  "description": "GECSUMMER",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wubohan-dot/VaccinePassportDapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wubohan-dot/VaccinePassportDapp/issues"
+  },
+  "homepage": "https://github.com/Wubohan-dot/VaccinePassportDapp#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^6.2.0",
+    "json-loader": "^0.5.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "style-loader": "^3.2.1",
+    "web3": "^0.20.0",
+    "webpack": "^5.52.1"
+  }
+}
