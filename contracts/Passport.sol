@@ -56,24 +56,29 @@ contract Passport{
     constructor() public{
         identity[msg.sender]=Identity.Authority;
         numbersInWaitingList[msg.sender]=0;
+        //Auhority 0xd16AAecB76318c363F5dfb6bA192163a3695d4d8
+        //Hospital 0x9a6536b20EE818899C7026925AAfA27A656c32f8
+        //user     0x7Ddf0cd1f0D562F73C27F662ca389c72553B5470
+        //user2    0x4004b49c9DC5217b752b586894c5269f37d917b8
+        
         identity[0x9a6536b20EE818899C7026925AAfA27A656c32f8]=Identity.Hospital;
         InjectionID=0;
     }
     
-    function test() public returns(uint n){
+    function testt() public view returns(uint n, Identity id){
         
-        uint number=2;
-        return number;
+        n=2;
+        Identity id=identity[msg.sender];
+        
     }
 
 
 
-
     function LookUp(address addr) public view havingAccess returns(address ID, string memory name, uint injectedIndex,TotalStatus totalStatus){
-        address ID = personalPassport[addr].ID;
-        string memory name = personalPassport[addr].name;
-        uint injectionIndex = personalPassport[addr].injectionIndex;
-        TotalStatus totalStatus = personalPassport[addr].totalStatus;
+        ID = personalPassport[addr].ID;
+        name = personalPassport[addr].name;
+        injectedIndex = personalPassport[addr].injectionIndex;
+        totalStatus = personalPassport[addr].totalStatus;
     }
     function deliverPassport(address addr,string memory _name) public havingAccess{
         PersonalPassport memory apassport=PersonalPassport({ID:addr,name:_name,injectionIndex:0,totalStatus:TotalStatus.haventVaccinated});
@@ -106,20 +111,22 @@ contract Passport{
 
 
     //Authority检查并修改Passport信息的过程可以改成按引用传递
-    function AuthorityGetUncheckedInjectionList() public isAuthority returns(uint[] memory flist){
+    function AuthorityGetUncheckedInjectionList() public view isAuthority returns(uint[] memory flist,uint cnt,uint totalCnt,uint herenumbersinWaitingList){
         uint[] memory list=new uint[](100);
-        uint cnt=0;
+        totalCnt=0;
+        cnt=0;
         for(uint i=0;i<numbersInWaitingList[msg.sender];i++){
             if(waitingList[msg.sender][i].injectionStatus==InjectionStatus.injected){
                list[cnt]=i;
                cnt++;
-            } 
+            }
+            totalCnt++;
         }
-        uint[] memory flist=new uint[](cnt);
+        flist=new uint[](cnt);
         for(uint i=0;i<cnt;i++){
             flist[i]=list[i];
         }
-        return flist;
+        herenumbersinWaitingList = numbersInWaitingList[msg.sender];
     }
 
     function AuthorityDisposeUncheckedInjection(uint i, InjectionStatus proposal) public isAuthority {
