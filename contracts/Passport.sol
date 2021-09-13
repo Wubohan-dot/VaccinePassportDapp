@@ -26,11 +26,14 @@ contract Passport{
     enum InjectionStatus{injected, authorithed, outdated, unvalid}
     //4.Injection:
     struct Injection{
+        uint256 InjectionID;
         string kind;
         address ID;
         string date;
+        uint injectedIndex;
         InjectionStatus injectionStatus;
     }
+    uint256 InjectionID;
 
     //5.To show specific Auhority the injection he is responsible for and not authorithed 
     mapping(address=>mapping(uint=>Injection)) waitingList;
@@ -53,15 +56,20 @@ contract Passport{
     constructor() public{
         identity[msg.sender]=Identity.Authority;
         numbersInWaitingList[msg.sender]=0;
+        //0x7Ddf0cd1f0D562F73C27F662ca389c72553B5470 user
         identity[0x9a6536b20EE818899C7026925AAfA27A656c32f8]=Identity.Hospital;
+        InjectionID=0;
     }
 
 
 
 
-    // function LookUp(address addr) public view havingAccess returns(PersonalPassport memory aPassport){
-    //     aPassport = personalPassport[addr];
-    // }
+    function LookUp(address addr) public view havingAccess returns(address ID, string memory name, uint injectedIndex,TotalStatus totalStatus){
+        address ID = personalPassport[addr].ID;
+        string memory name = personalPassport[addr].name;
+        uint injectionIndex = personalPassport[addr].injectionIndex;
+        TotalStatus totalStatus = personalPassport[addr].totalStatus;
+    }
     function deliverPassport(address addr,string memory _name) public havingAccess{
         PersonalPassport memory apassport=PersonalPassport({ID:addr,name:_name,injectionIndex:0,totalStatus:TotalStatus.haventVaccinated});
         personalPassport[addr]=apassport;
@@ -71,11 +79,11 @@ contract Passport{
         success=false;
         require(identity[authorityAddr]==Identity.Authority);
         
-        Injection memory injection=Injection(kind,ID,date,InjectionStatus.injected);
-        
         uint number = numbersInWaitingList[authorityAddr];
         uint injectedNumber=personalPassport[ID].injectionIndex;
         
+        Injection memory injection=Injection(InjectionID,kind,ID,date,injectedNumber,InjectionStatus.injected);
+
         
         personalPassport[ID].injectionInfo[injectedNumber]=injection;
         waitingList[authorityAddr][number]=injection;
@@ -84,10 +92,15 @@ contract Passport{
         injectedNumber=injectedNumber+1;
         personalPassport[ID].injectionIndex=injectedNumber;
         numbersInWaitingList[authorityAddr]=number;
+
+        InjectionID++;
+
         
         success=true;
     }
 
+
+    //Authority检查并修改Passport信息的过程可以改成按引用传递
     function AuthorityGetUncheckedInjectionList() public isAuthority returns(uint[] memory flist){
         uint[] memory list=new uint[](100);
         uint cnt=0;
@@ -104,6 +117,21 @@ contract Passport{
         return flist;
     }
 
+    function AuthorityDisposeUncheckedInjection(uint i, InjectionStatus proposal) public isAuthority {
+        Injection memory injection=waitingList[msg.sender][i];
+        address ID=injection.ID;
+        uint256 InjectionID=injection.InjectionID;
+        uint injectedIndex=injection.injectedIndex;
+
+        waitingList[msg.sender][i].injectionStatus=proposal;
+
+        personalPassport[ID].injectionInfo[injectedIndex].injectionStatus=proposal;
+
+    }
+
+    function AuthorityChangeToatalStatus(address addr,TotalStatus totalStatus) public isAuthority{
+        personalPassport[addr].totalStatus=totalStatus;
+    }
 
 }
 
