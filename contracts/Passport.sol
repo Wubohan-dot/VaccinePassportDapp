@@ -56,9 +56,14 @@ contract Passport{
     constructor() public{
         identity[msg.sender]=Identity.Authority;
         numbersInWaitingList[msg.sender]=0;
-        //0x7Ddf0cd1f0D562F73C27F662ca389c72553B5470 user
         identity[0x9a6536b20EE818899C7026925AAfA27A656c32f8]=Identity.Hospital;
         InjectionID=0;
+    }
+    
+    function test() public returns(uint n){
+        
+        uint number=2;
+        return number;
     }
 
 
