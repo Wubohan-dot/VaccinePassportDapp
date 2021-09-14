@@ -4,7 +4,7 @@ import "./IterableMapping.sol";
 
 contract Passport{
     
-    enum Identity {Hospital,Authority,VaccinatedOne}
+    enum Identity {VaccinatedOne,Hospital,Authority}
     //1.mapping(address=>identity(H/A/O)) to verify his access, used to modifier
     mapping(address=>Identity) identity;
 
@@ -61,7 +61,7 @@ contract Passport{
         //user     0x7Ddf0cd1f0D562F73C27F662ca389c72553B5470
         //user2    0x4004b49c9DC5217b752b586894c5269f37d917b8
         
-        identity[0x9a6536b20EE818899C7026925AAfA27A656c32f8]=Identity.Hospital;
+        //identity[0x9a6536b20EE818899C7026925AAfA27A656c32f8]=Identity.Hospital;
         InjectionID=0;
     }
     
@@ -83,6 +83,9 @@ contract Passport{
     function deliverPassport(address addr,string memory _name) public havingAccess{
         PersonalPassport memory apassport=PersonalPassport({ID:addr,name:_name,injectionIndex:0,totalStatus:TotalStatus.haventVaccinated});
         personalPassport[addr]=apassport;
+    }
+    function grantHospitals(address addr) public isAuthority{
+        identity[addr]=Identity.Hospital;
     }
 
     function HospitalSubmitInfomation(address authorityAddr, string memory kind, address ID,string memory date) public isHospital returns(bool success){
@@ -110,7 +113,7 @@ contract Passport{
     }
 
 
-    //Authority检查并修改Passport信息的过程可以改成按引用传递
+    
     function AuthorityGetUncheckedInjectionList() public view isAuthority returns(uint[] memory flist,uint cnt,uint totalCnt,uint herenumbersinWaitingList){
         uint[] memory list=new uint[](100);
         totalCnt=0;
@@ -143,6 +146,29 @@ contract Passport{
 
     function AuthorityChangeToatalStatus(address addr,TotalStatus totalStatus) public isAuthority{
         personalPassport[addr].totalStatus=totalStatus;
+    }
+
+    function VaccinatedOneGetHisPassport() public view returns(address _ID, string memory _name, TotalStatus _totalStatus){
+        _ID=personalPassport[msg.sender].ID;
+        _name=personalPassport[msg.sender].name;
+        _totalStatus=personalPassport[msg.sender].totalStatus;
+    } 
+
+    function VaccinatedOneGetList() public view returns(uint[] memory list){
+        uint nums=personalPassport[msg.sender].injectionIndex;
+        list=new uint[](nums);
+        for(uint i=0;i<nums;i++){
+            list[i]=i;
+        }
+    }
+
+    function showSpecificInjection(uint i) public view returns(uint256 _InjectionID,string memory _kind,address _ID,string memory _date,uint _injectedIndex,InjectionStatus _InjectionStatus){
+        _InjectionID=personalPassport[msg.sender].injectionInfo[i].InjectionID;
+        _kind=personalPassport[msg.sender].injectionInfo[i].kind;
+        _ID=personalPassport[msg.sender].injectionInfo[i].ID;
+        _date=personalPassport[msg.sender].injectionInfo[i].date;
+        _injectedIndex=personalPassport[msg.sender].injectionInfo[i].injectedIndex;
+        _InjectionStatus=personalPassport[msg.sender].injectionInfo[i].injectionStatus;
     }
 
 }
