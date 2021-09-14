@@ -18,7 +18,6 @@ contract Passport{
         string name;
         mapping(uint=>Injection) injectionInfo;
         uint injectionIndex;
-        TotalStatus totalStatus;
     }
 
     
@@ -53,6 +52,18 @@ contract Passport{
     }
 
 
+    event LookUpEvent(address addr);
+    event deliverPassportEvent(address addr, string name);
+    event grantHospitalEvent(address addr);
+    event HospitalSubmitInfomationEvent(address auth, string kind, address ID, string date);
+    event AuthorityGetUncheckedInjectionListEvent();
+    event AuthorityDisposeUncheckedInjectionEvent(uint i, uint proposal);
+    event AuthorityChangeToatalStatusEvent(address addr, uint totalStatus);
+    event VaccinatedOneGetHisPassportEvent();
+    event VaccinatedOneGetListEvent();
+    event showSpecificInjectionEvent(uint i);
+
+
     constructor() public{
         identity[msg.sender]=Identity.Authority;
         numbersInWaitingList[msg.sender]=0;
@@ -75,6 +86,7 @@ contract Passport{
 
 
     function LookUp(address addr) public view havingAccess returns(address ID, string memory name, uint injectedIndex,TotalStatus totalStatus){
+        emit LookUpEvent(addr);
         ID = personalPassport[addr].ID;
         name = personalPassport[addr].name;
         injectedIndex = personalPassport[addr].injectionIndex;
@@ -83,9 +95,11 @@ contract Passport{
     function deliverPassport(address addr,string memory _name) public havingAccess{
         PersonalPassport memory apassport=PersonalPassport({ID:addr,name:_name,injectionIndex:0,totalStatus:TotalStatus.haventVaccinated});
         personalPassport[addr]=apassport;
+        emit deliverPassportEvent(addr, name);
     }
     function grantHospitals(address addr) public isAuthority{
         identity[addr]=Identity.Hospital;
+        emit grantHospitalEvent(addr);
     }
 
     function HospitalSubmitInfomation(address authorityAddr, string memory kind, address ID,string memory date) public isHospital returns(bool success){
@@ -108,7 +122,7 @@ contract Passport{
 
         InjectionID++;
 
-        
+        emit HospitalSubmitInfomationEvent(authorityAddr, kind, ID, date);
         success=true;
     }
 
@@ -130,6 +144,7 @@ contract Passport{
             flist[i]=list[i];
         }
         herenumbersinWaitingList = numbersInWaitingList[msg.sender];
+        emit AuthorityGetUncheckedInjectionListEvent();
     }
 
     function AuthorityDisposeUncheckedInjection(uint i, InjectionStatus proposal) public isAuthority {
@@ -141,14 +156,18 @@ contract Passport{
         waitingList[msg.sender][i].injectionStatus=proposal;
 
         personalPassport[ID].injectionInfo[injectedIndex].injectionStatus=proposal;
+        emit AuthorityDisposeUncheckedInjectionEvent(i, proposal);
 
     }
 
     function AuthorityChangeToatalStatus(address addr,TotalStatus totalStatus) public isAuthority{
         personalPassport[addr].totalStatus=totalStatus;
+        emit AuthorityChangeToatalStatusEvent(addr, totalStatus);
     }
 
     function VaccinatedOneGetHisPassport() public view returns(address _ID, string memory _name, TotalStatus _totalStatus){
+        emit VaccinatedOneGetHisPassportEvent();
+        
         _ID=personalPassport[msg.sender].ID;
         _name=personalPassport[msg.sender].name;
         _totalStatus=personalPassport[msg.sender].totalStatus;
@@ -160,9 +179,12 @@ contract Passport{
         for(uint i=0;i<nums;i++){
             list[i]=i;
         }
+        emit VaccinatedOneGetListEvent();
     }
 
     function showSpecificInjection(uint i) public view returns(uint256 _InjectionID,string memory _kind,address _ID,string memory _date,uint _injectedIndex,InjectionStatus _InjectionStatus){
+        emit showSpecificInjectionEvent(i);
+        
         _InjectionID=personalPassport[msg.sender].injectionInfo[i].InjectionID;
         _kind=personalPassport[msg.sender].injectionInfo[i].kind;
         _ID=personalPassport[msg.sender].injectionInfo[i].ID;
