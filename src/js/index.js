@@ -1,0 +1,31 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Web3 from 'web3'
+import './../css/index.css'
+
+class App extends React.Component {
+    constructor(props){
+        this.state = {
+            InjectionID:0
+        }
+
+        if(typeof web3 != 'undefined'){
+            console.log("Using web3 detected from external source like Metamask")
+            this.web3 = new Web3(web3.currentProvider)
+         }else{
+            console.log("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
+            this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+         }
+
+
+    }
+    render(){
+        return (
+            
+        )
+    }
+}
+ReactDOM.render(
+    <App />,
+    document.querySelector('#root')
+)
