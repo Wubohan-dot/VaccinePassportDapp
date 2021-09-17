@@ -5,8 +5,62 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
    <title>Vaccine Passport Dapp</title>
+   <script>
+      function getAuthorityPart(){
+         document.getElementById("AuthorityPart").style.display="block";
+         document.getElementById("HospitalPart").style.display="none";
+         document.getElementById("UserPart").style.display="none";
+      }
+      function getHospitalPart(){
+         document.getElementById("AuthorityPart").style.display="none";
+         document.getElementById("HospitalPart").style.display="block";
+         document.getElementById("UserPart").style.display="none";
+      }
+      function getUserPart(){
+         document.getElementById("AuthorityPart").style.display="none";
+         document.getElementById("HospitalPart").style.display="none";
+         document.getElementById("UserPart").style.display="block";
+      }
+   </script>
+   <style>
+      header {
+          background-color:black;
+          color:white;
+          text-align:center;
+          padding:5px;	 
+      }
+      nav {
+          line-height:30px;
+          background-color:#eeeeee;
+          height:300px;
+          width:100px;
+          float:left;
+          padding:5px;	      
+      }
+      section {
+          width:350px;
+          float:left;
+          padding:10px;	 	 
+      }
+      footer {
+          background-color:black;
+          color:white;
+          clear:both;
+          text-align:center;
+          padding:5px;	 	 
+      }
+   </style>
 </head>
+
+<header>
+   <h1>Choose Your Identity</h1>
+   <br />
+   <button onclick="getAuthorityPart()">AuthorityPart</button>
+   <button onclick="getHospitalPart()">HospitalPart</button>
+   <button onclick="getUserPart()">UserPart</button>
+</header>
 <body>
+   
    <div id="root"></div>
 
    <script src="./build.js"></script>
