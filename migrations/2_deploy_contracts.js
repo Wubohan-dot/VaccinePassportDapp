@@ -1,4 +1,4 @@
-var Casino = artifacts.require("./Casino.sol");
+var Passport = artifacts.require("./Passport.sol");
 module.exports = function(deployer) {
-  deployer.deploy({gas: 3000000});
+  deployer.deploy(Passport);
 };

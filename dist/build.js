@@ -10089,144 +10089,32 @@ var App = function (_React$Component) {
             _this.web3 = new _web2.default(new _web2.default.providers.HttpProvider("http://localhost:8545"));
         }
         var MyContract = web3.eth.contract([{
-            "constant": true,
-            "inputs": [],
-            "name": "AuthorityGetUncheckedInjectionList",
-            "outputs": [{
-                "name": "flist",
-                "type": "uint256[]"
-            }, {
-                "name": "cnt",
-                "type": "uint256"
-            }, {
-                "name": "totalCnt",
-                "type": "uint256"
-            }, {
-                "name": "herenumbersinWaitingList",
-                "type": "uint256"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [],
-            "name": "VaccinatedOneGetList",
-            "outputs": [{
-                "name": "list",
-                "type": "uint256[]"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
             "constant": false,
             "inputs": [{
                 "name": "addr",
                 "type": "address"
-            }],
-            "name": "grantHospitals",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [],
-            "name": "testt",
-            "outputs": [{
-                "name": "n",
-                "type": "uint256"
-            }, {
-                "name": "id",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [],
-            "name": "VaccinatedOneGetHisPassport",
-            "outputs": [{
-                "name": "_ID",
-                "type": "address"
-            }, {
-                "name": "_name",
-                "type": "string"
-            }, {
-                "name": "_totalStatus",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [{
-                "name": "i",
-                "type": "uint256"
-            }],
-            "name": "showSpecificInjection",
-            "outputs": [{
-                "name": "_InjectionID",
-                "type": "uint256"
-            }, {
-                "name": "_kind",
-                "type": "string"
-            }, {
-                "name": "_ID",
-                "type": "address"
-            }, {
-                "name": "_date",
-                "type": "string"
-            }, {
-                "name": "_injectedIndex",
-                "type": "uint256"
-            }, {
-                "name": "_InjectionStatus",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": false,
-            "inputs": [{
-                "name": "addr",
-                "type": "address"
-            }, {
-                "name": "_name",
-                "type": "string"
-            }],
-            "name": "deliverPassport",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [{
-                "name": "addr",
-                "type": "address"
-            }],
-            "name": "LookUp",
-            "outputs": [{
-                "name": "ID",
-                "type": "address"
-            }, {
-                "name": "name",
-                "type": "string"
-            }, {
-                "name": "injectedIndex",
-                "type": "uint256"
             }, {
                 "name": "totalStatus",
                 "type": "uint8"
             }],
+            "name": "AuthorityChangeToatalStatus",
+            "outputs": [],
             "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
+        }, {
+            "anonymous": false,
+            "inputs": [{
+                "indexed": false,
+                "name": "addr",
+                "type": "address"
+            }, {
+                "indexed": false,
+                "name": "totalStatus",
+                "type": "uint8"
+            }],
+            "name": "AuthorityChangeToatalStatusEvent",
+            "type": "event"
         }, {
             "constant": false,
             "inputs": [{
@@ -10242,15 +10130,39 @@ var App = function (_React$Component) {
             "stateMutability": "nonpayable",
             "type": "function"
         }, {
+            "anonymous": false,
+            "inputs": [{
+                "indexed": false,
+                "name": "i",
+                "type": "uint256"
+            }, {
+                "indexed": false,
+                "name": "proposal",
+                "type": "uint8"
+            }],
+            "name": "AuthorityDisposeUncheckedInjectionEvent",
+            "type": "event"
+        }, {
             "constant": false,
             "inputs": [{
                 "name": "addr",
                 "type": "address"
             }, {
-                "name": "totalStatus",
-                "type": "uint8"
+                "name": "_name",
+                "type": "string"
             }],
-            "name": "AuthorityChangeToatalStatus",
+            "name": "deliverPassport",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "grantHospitals",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
@@ -10278,11 +10190,6 @@ var App = function (_React$Component) {
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
-        }, {
-            "inputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor"
         }, {
             "anonymous": false,
             "inputs": [{
@@ -10342,32 +10249,6 @@ var App = function (_React$Component) {
             "type": "event"
         }, {
             "anonymous": false,
-            "inputs": [{
-                "indexed": false,
-                "name": "i",
-                "type": "uint256"
-            }, {
-                "indexed": false,
-                "name": "proposal",
-                "type": "uint8"
-            }],
-            "name": "AuthorityDisposeUncheckedInjectionEvent",
-            "type": "event"
-        }, {
-            "anonymous": false,
-            "inputs": [{
-                "indexed": false,
-                "name": "addr",
-                "type": "address"
-            }, {
-                "indexed": false,
-                "name": "totalStatus",
-                "type": "uint8"
-            }],
-            "name": "AuthorityChangeToatalStatusEvent",
-            "type": "event"
-        }, {
-            "anonymous": false,
             "inputs": [],
             "name": "VaccinatedOneGetHisPassportEvent",
             "type": "event"
@@ -10385,8 +10266,127 @@ var App = function (_React$Component) {
             }],
             "name": "showSpecificInjectionEvent",
             "type": "event"
+        }, {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "AuthorityGetUncheckedInjectionList",
+            "outputs": [{
+                "name": "flist",
+                "type": "uint256[]"
+            }, {
+                "name": "cnt",
+                "type": "uint256"
+            }, {
+                "name": "totalCnt",
+                "type": "uint256"
+            }, {
+                "name": "herenumbersinWaitingList",
+                "type": "uint256"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [{
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "LookUp",
+            "outputs": [{
+                "name": "ID",
+                "type": "address"
+            }, {
+                "name": "name",
+                "type": "string"
+            }, {
+                "name": "injectedIndex",
+                "type": "uint256"
+            }, {
+                "name": "totalStatus",
+                "type": "uint8"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [{
+                "name": "i",
+                "type": "uint256"
+            }],
+            "name": "showSpecificInjection",
+            "outputs": [{
+                "name": "_InjectionID",
+                "type": "uint256"
+            }, {
+                "name": "_kind",
+                "type": "string"
+            }, {
+                "name": "_ID",
+                "type": "address"
+            }, {
+                "name": "_date",
+                "type": "string"
+            }, {
+                "name": "_injectedIndex",
+                "type": "uint256"
+            }, {
+                "name": "_InjectionStatus",
+                "type": "uint8"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "testt",
+            "outputs": [{
+                "name": "n",
+                "type": "uint256"
+            }, {
+                "name": "id",
+                "type": "uint8"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "VaccinatedOneGetHisPassport",
+            "outputs": [{
+                "name": "_ID",
+                "type": "address"
+            }, {
+                "name": "_name",
+                "type": "string"
+            }, {
+                "name": "_totalStatus",
+                "type": "uint8"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "VaccinatedOneGetList",
+            "outputs": [{
+                "name": "list",
+                "type": "uint256[]"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
         }]);
-        _this.state.ContractInstance = MyContract.at("0x21Af7f8637686EA86A997E9276F820e59e814a17");
+        _this.state.ContractInstance = MyContract.at('0x49a081DAF2ee92c6F16E7052745ec25BeEE6a2c1');
 
         window.a = _this.state;
 
@@ -10394,6 +10394,11 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
+        key: 'returnInjectionID',
+        value: function returnInjectionID() {
+            return this.state.InjectionID;
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(

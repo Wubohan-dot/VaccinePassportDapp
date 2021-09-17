@@ -56,6 +56,7 @@ contract Passport{
     event LookUpEvent(address addr);
     event deliverPassportEvent(address addr, string name);
     event grantHospitalEvent(address addr);
+    event grantAuthorityEvent(address addr);
     event HospitalSubmitInfomationEvent(address auth, string kind, address ID, string date);
     event AuthorityGetUncheckedInjectionListEvent();
     event AuthorityDisposeUncheckedInjectionEvent(uint i, InjectionStatus proposal);
@@ -77,10 +78,9 @@ contract Passport{
         InjectionID=0;
     }
     
-    function testt() public view returns(uint n, Identity id){
+    function testt() public view returns(uint n){
         
         n=2;
-        Identity id=identity[msg.sender];
         
     }
 
@@ -101,6 +101,10 @@ contract Passport{
     function grantHospitals(address addr) public isAuthority{
         identity[addr]=Identity.Hospital;
         emit grantHospitalEvent(addr);
+    }
+    function grantAuthority(address addr) public isAuthority{
+        identity[addr]=Identity.Authority;
+        emit grantAuthorityEvent(addr);
     }
 
     function HospitalSubmitInfomation(address authorityAddr, string memory kind, address ID,string memory date) public isHospital returns(bool success){
