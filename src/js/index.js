@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            InjectionID:0
+            InjectionID:10
         }
 
         if(typeof web3 != 'undefined'){
@@ -518,219 +518,19 @@ class App extends React.Component {
        
      }
 
-    // returnInjectionID(){
-    //     return this.state.InjectionID;
-    // }
+    returnInjectionID(){
+        return this.state.InjectionID;
+    }
     
     render(){
         return(
-            <div> 
-		
-        <h1>Choose Your Identity</h1>
-   
-   <br />
-   <button onclick="getAuthorityPart()">AuthorityPart</button>
-   <button onclick="getHospitalPart()">HospitalPart</button>
-   <button onclick="getUserPart()">UserPart</button>
-        
-        <div id="AuthorityPart" style="display: none;">
-		<h2>Here you are Authority</h2>
-		<nav>       
-		  <a onclick="getDeliverPassport()">DeliverPassport</a>
-		  <a onclick="getChangeTotalStatus()">ChangeTotalStatus</a>
-		  <a onclick="getGetList()">GetList</a>
-		  <a onclick="getGrantHospital()">GrantHospital</a>
-		  <a onclick="getGrantAuthority()">GrantAuthority</a>
-		  <a onclick="getLookUp()">LookUp</a>
-		  <br/>
-		  <a onclick="getDispose()">Dispose</a>
-		</nav> 
-		<section>
-		  <div id="DeliverPassport" style="display: none;">
-			  DeliverPassport here. 
-			  <br/>
-			  <br/>
-			  Enter the address of the user you need to send the passport:
-			  <br/>
-			  <input type="text"/>
-			  <br/>
-			  Enter the name of the receiver:
-			  <br/>
-			  <input type="text"/>
-			  <button> Submit </button>
-		  </div>
-		  
-		  <div id="ChangeTotalStatus" style="display: none;">
-			  ChangeTotalStatus here
-			  <br/>
-			  <br/>
-			  Enter the address of the user:
-			  <br/>
-			  <input type="text"/>
-			  <br/>
-			  Enter the status you want to change to (0-2):
-			  <br/>
-			  <input type="text"/>
-			  <button>Submit</button>
-		  </div>
-		
-		  <div id="GetList" style="display: none;">
-			  GetList here
-			  <br/>
-			  <br/>
-			  <p>This is the place for the unchecked list</p>
-			  <br/>
-			  <button>Get</button>
-		  </div>
-		  <div id="GrantHospital" style="display: none;">
-			  Grant Hospital here
-			  <br/>
-			  <br/>
-			  Enter the address of the hospital to be granted:
-			  <br/>
-			  <input type="text"/>
-			  <button>Submit</button>
-		  </div>
-	   
-		  <div id="GrantAuthority" style="display: none;">
-			  Grant Authority here
-			  <br/>
-			  <br/>
-			  Enter the address of the authority to be granted:
-			  <br/>
-			  <input type="text"/>
-			  <button>Submit</button>
-		  </div>
-	 
-		  <div id="LookUp" style="display: none;">
-			  Look Up user's passport
-			  <br/>
-			  <br/>
-			  Enter the user's address:
-			  <input type="text"/>
-			  <button>Submit</button>
-		  </div>
-		  <div id="Dispose" style="display: none;">
-			  Dispose unchecked vaccination
-			  <br/>
-			  <br/>
-			  Enter the index of the vaccination waiting for dispose:
-			  <br/>
-			  <input type="text"/>
-			  <br/>
-			  Enter the proposal here (0-3):
-			  <br/>
-			  <input type="text"/>
-			  <button>Submit</button>
-		  </div>
-  
-
-		</section>
-		</div>
-  <div id="HospitalPart" style="display: none;">
-	  <h2>Here you are Hospital</h2>
-	  <nav>       
-		<a onclick="HosDeliverPassport()">DeliverPassport</a>
-		<a onclick="HosLookUp()">LookUp</a>
-		<br/>
-		<a onclick="SubmitInfo()">SubmitInfo</a>
-	   
-	  </nav>
-	  <section>
-		<div id="HosDeliverPassport" style="display: none;">
-			Hospital DeliverPassport here
-			<br/>
-			<br/>
-			Enter the address of the user you need to send the passport:
-			<br/>
-			<input type="text"/>
-			<br/>
-			Enter the name of the receiver:
-			<br/>
-			<input type="text"/>
-			<button> Submit </button>
-		</div>
-		
-		<div id="HosLookUp" style="display: none;">
-			Hospital look up here
-			<br/>
-			<br/>
-			Enter the user's address:
-			<input type="text"/>
-			<button>Submit</button>
-		</div>
-	  
-		<div id="SubmitInfo" style="display: none;">
-		   Submit Information here
-		   <br/>
-		   <br/>
-		   Enter the authority's address:
-		   <br/>
-		   <input type="text"/>
-		   <br/>
-		   Enter the vaccine type:
-		   <br/>
-		   <input type="text"/>
-		   <br/>
-		   Enter the ID (address) of the user:
-		   <br/>
-		   <input type="text"/>
-		   <br/>
-		   Enter the date of vaccination:
-		   <br/>
-		   <input type="text"/>
-		   <button>Submit</button>
-		</div>
-		
-	  </section>
-  </div>
-  <div id="UserPart" style="display: none;">
-	  <h2>Here you are User</h2>
-
-	 <nav>       
-		<a onclick="GetPassport()">GetPassport</a>
-		<br/>
-		<a onclick="UserGetList()">GetList</a>
-		<br/>
-		<a onclick="Specific()">SpecificVaccine</a>
-	   
-	  </nav>
-	  <section>
-		<div id="GetPassport" style="display: none;">
-			Get your own vaccine passport here
-			<br/>
-			<br/>
-			<p>This is the place for passport information</p>
-			<br/>
-			<button>Get</button>
-		</div>
-		
-		<div id="UserGetList" style="display: none;">
-			Get your vaccination list here
-			<br/>
-			<br/>
-			<p>This is the place for your vaccination list</p>
-			<br/>
-			<button>Get</button>
-		</div>
-	  
-		<div id="Specific" style="display: none;">
-		   Search for your specific vaccination here
-		   <br/>
-		   <br/>
-		   <p>This is place for the specific vaccination by index</p>
-		   <br/>
-		   Enter the index of vaccination list:
-		   <br/>
-		   <input type="text"/>
-		   <button>Get</button>
-		</div>
-		
-	  </section>
-  </div>
-</div>
-            
-        
+            <div>
+            <div>In js</div>
+            <div className="block">
+               <b>Number of bets:</b> &nbsp;
+               <span>{this.state.InjectionID}</span>
+            </div>
+            </div>
         )
     }
     
