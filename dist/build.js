@@ -10463,7 +10463,7 @@ var App = function (_React$Component) {
             "stateMutability": "view",
             "type": "function"
         }]);
-        _this.state.ContractInstance = MyContract.at('0x807DAD33cB6fB78d858c059375BDcb8ff3D2d06F');
+        _this.state.ContractInstance = MyContract.at('0x6bA2742E6143D4963f06dd235624C6F4c890D411');
 
         window.a = _this.state;
 
