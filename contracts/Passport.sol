@@ -33,7 +33,7 @@ contract Passport{
         uint injectedIndex;
         InjectionStatus injectionStatus;
     }
-    uint256 InjectionID;
+    uint256 public InjectionID;
 
     //5.To show specific Auhority the injection he is responsible for and not authorithed 
     mapping(address=>mapping(uint=>Injection)) waitingList;

@@ -10089,154 +10089,65 @@ var App = function (_React$Component) {
             _this.web3 = new _web2.default(new _web2.default.providers.HttpProvider("http://localhost:8545"));
         }
         var MyContract = web3.eth.contract([{
-            "constant": false,
-            "inputs": [{
-                "name": "addr",
-                "type": "address"
-            }, {
-                "name": "totalStatus",
-                "type": "uint8"
-            }],
-            "name": "AuthorityChangeToatalStatus",
-            "outputs": [],
+            "inputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "function"
+            "type": "constructor"
         }, {
             "anonymous": false,
             "inputs": [{
                 "indexed": false,
+                "internalType": "address",
                 "name": "addr",
                 "type": "address"
             }, {
                 "indexed": false,
+                "internalType": "enum Passport.TotalStatus",
                 "name": "totalStatus",
                 "type": "uint8"
             }],
             "name": "AuthorityChangeToatalStatusEvent",
             "type": "event"
         }, {
-            "constant": false,
-            "inputs": [{
-                "name": "i",
-                "type": "uint256"
-            }, {
-                "name": "proposal",
-                "type": "uint8"
-            }],
-            "name": "AuthorityDisposeUncheckedInjection",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
             "anonymous": false,
             "inputs": [{
                 "indexed": false,
+                "internalType": "uint256",
                 "name": "i",
                 "type": "uint256"
             }, {
                 "indexed": false,
+                "internalType": "enum Passport.InjectionStatus",
                 "name": "proposal",
                 "type": "uint8"
             }],
             "name": "AuthorityDisposeUncheckedInjectionEvent",
             "type": "event"
         }, {
-            "constant": false,
-            "inputs": [{
-                "name": "addr",
-                "type": "address"
-            }, {
-                "name": "_name",
-                "type": "string"
-            }],
-            "name": "deliverPassport",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
-            "constant": false,
-            "inputs": [{
-                "name": "addr",
-                "type": "address"
-            }],
-            "name": "grantHospitals",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
-            "constant": false,
-            "inputs": [{
-                "name": "authorityAddr",
-                "type": "address"
-            }, {
-                "name": "kind",
-                "type": "string"
-            }, {
-                "name": "ID",
-                "type": "address"
-            }, {
-                "name": "date",
-                "type": "string"
-            }],
-            "name": "HospitalSubmitInfomation",
-            "outputs": [{
-                "name": "success",
-                "type": "bool"
-            }],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }, {
             "anonymous": false,
-            "inputs": [{
-                "indexed": false,
-                "name": "addr",
-                "type": "address"
-            }],
-            "name": "LookUpEvent",
+            "inputs": [],
+            "name": "AuthorityGetUncheckedInjectionListEvent",
             "type": "event"
         }, {
             "anonymous": false,
             "inputs": [{
                 "indexed": false,
-                "name": "addr",
-                "type": "address"
-            }, {
-                "indexed": false,
-                "name": "name",
-                "type": "string"
-            }],
-            "name": "deliverPassportEvent",
-            "type": "event"
-        }, {
-            "anonymous": false,
-            "inputs": [{
-                "indexed": false,
-                "name": "addr",
-                "type": "address"
-            }],
-            "name": "grantHospitalEvent",
-            "type": "event"
-        }, {
-            "anonymous": false,
-            "inputs": [{
-                "indexed": false,
+                "internalType": "address",
                 "name": "auth",
                 "type": "address"
             }, {
                 "indexed": false,
+                "internalType": "string",
                 "name": "kind",
                 "type": "string"
             }, {
                 "indexed": false,
+                "internalType": "address",
                 "name": "ID",
                 "type": "address"
             }, {
                 "indexed": false,
+                "internalType": "string",
                 "name": "date",
                 "type": "string"
             }],
@@ -10244,8 +10155,13 @@ var App = function (_React$Component) {
             "type": "event"
         }, {
             "anonymous": false,
-            "inputs": [],
-            "name": "AuthorityGetUncheckedInjectionListEvent",
+            "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "LookUpEvent",
             "type": "event"
         }, {
             "anonymous": false,
@@ -10261,30 +10177,97 @@ var App = function (_React$Component) {
             "anonymous": false,
             "inputs": [{
                 "indexed": false,
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }, {
+                "indexed": false,
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            }],
+            "name": "deliverPassportEvent",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "grantAuthorityEvent",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "grantHospitalEvent",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{
+                "indexed": false,
+                "internalType": "uint256",
                 "name": "i",
                 "type": "uint256"
             }],
             "name": "showSpecificInjectionEvent",
             "type": "event"
         }, {
-            "inputs": [],
+            "constant": false,
+            "inputs": [{
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }, {
+                "internalType": "enum Passport.TotalStatus",
+                "name": "totalStatus",
+                "type": "uint8"
+            }],
+            "name": "AuthorityChangeToatalStatus",
+            "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "constructor"
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{
+                "internalType": "uint256",
+                "name": "i",
+                "type": "uint256"
+            }, {
+                "internalType": "enum Passport.InjectionStatus",
+                "name": "proposal",
+                "type": "uint8"
+            }],
+            "name": "AuthorityDisposeUncheckedInjection",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
         }, {
             "constant": true,
             "inputs": [],
             "name": "AuthorityGetUncheckedInjectionList",
             "outputs": [{
+                "internalType": "uint256[]",
                 "name": "flist",
                 "type": "uint256[]"
             }, {
+                "internalType": "uint256",
                 "name": "cnt",
                 "type": "uint256"
             }, {
+                "internalType": "uint256",
                 "name": "totalCnt",
                 "type": "uint256"
             }, {
+                "internalType": "uint256",
                 "name": "herenumbersinWaitingList",
                 "type": "uint256"
             }],
@@ -10292,66 +10275,68 @@ var App = function (_React$Component) {
             "stateMutability": "view",
             "type": "function"
         }, {
+            "constant": false,
+            "inputs": [{
+                "internalType": "address",
+                "name": "authorityAddr",
+                "type": "address"
+            }, {
+                "internalType": "string",
+                "name": "kind",
+                "type": "string"
+            }, {
+                "internalType": "address",
+                "name": "ID",
+                "type": "address"
+            }, {
+                "internalType": "string",
+                "name": "date",
+                "type": "string"
+            }],
+            "name": "HospitalSubmitInfomation",
+            "outputs": [{
+                "internalType": "bool",
+                "name": "success",
+                "type": "bool"
+            }],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "InjectionID",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
             "constant": true,
             "inputs": [{
+                "internalType": "address",
                 "name": "addr",
                 "type": "address"
             }],
             "name": "LookUp",
             "outputs": [{
+                "internalType": "address",
                 "name": "ID",
                 "type": "address"
             }, {
+                "internalType": "string",
                 "name": "name",
                 "type": "string"
             }, {
+                "internalType": "uint256",
                 "name": "injectedIndex",
                 "type": "uint256"
             }, {
+                "internalType": "enum Passport.TotalStatus",
                 "name": "totalStatus",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [{
-                "name": "i",
-                "type": "uint256"
-            }],
-            "name": "showSpecificInjection",
-            "outputs": [{
-                "name": "_InjectionID",
-                "type": "uint256"
-            }, {
-                "name": "_kind",
-                "type": "string"
-            }, {
-                "name": "_ID",
-                "type": "address"
-            }, {
-                "name": "_date",
-                "type": "string"
-            }, {
-                "name": "_injectedIndex",
-                "type": "uint256"
-            }, {
-                "name": "_InjectionStatus",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [],
-            "name": "testt",
-            "outputs": [{
-                "name": "n",
-                "type": "uint256"
-            }, {
-                "name": "id",
                 "type": "uint8"
             }],
             "payable": false,
@@ -10362,12 +10347,15 @@ var App = function (_React$Component) {
             "inputs": [],
             "name": "VaccinatedOneGetHisPassport",
             "outputs": [{
+                "internalType": "address",
                 "name": "_ID",
                 "type": "address"
             }, {
+                "internalType": "string",
                 "name": "_name",
                 "type": "string"
             }, {
+                "internalType": "enum Passport.TotalStatus",
                 "name": "_totalStatus",
                 "type": "uint8"
             }],
@@ -10379,14 +10367,103 @@ var App = function (_React$Component) {
             "inputs": [],
             "name": "VaccinatedOneGetList",
             "outputs": [{
+                "internalType": "uint256[]",
                 "name": "list",
                 "type": "uint256[]"
             }],
             "payable": false,
             "stateMutability": "view",
             "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }, {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            }],
+            "name": "deliverPassport",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "grantAuthority",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            }],
+            "name": "grantHospitals",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [{
+                "internalType": "uint256",
+                "name": "i",
+                "type": "uint256"
+            }],
+            "name": "showSpecificInjection",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "_InjectionID",
+                "type": "uint256"
+            }, {
+                "internalType": "string",
+                "name": "_kind",
+                "type": "string"
+            }, {
+                "internalType": "address",
+                "name": "_ID",
+                "type": "address"
+            }, {
+                "internalType": "string",
+                "name": "_date",
+                "type": "string"
+            }, {
+                "internalType": "uint256",
+                "name": "_injectedIndex",
+                "type": "uint256"
+            }, {
+                "internalType": "enum Passport.InjectionStatus",
+                "name": "_InjectionStatus",
+                "type": "uint8"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "testt",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "n",
+                "type": "uint256"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
         }]);
-        _this.state.ContractInstance = MyContract.at('0x49a081DAF2ee92c6F16E7052745ec25BeEE6a2c1');
+        _this.state.ContractInstance = MyContract.at('0x807DAD33cB6fB78d858c059375BDcb8ff3D2d06F');
 
         window.a = _this.state;
 
@@ -10394,10 +10471,34 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
-        key: 'returnInjectionID',
-        value: function returnInjectionID() {
-            return this.state.InjectionID;
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.updateState();
+            this.setupListeners();
+
+            setInterval(this.updateState.bind(this), 7e3);
         }
+    }, {
+        key: 'updateState',
+        value: function updateState() {
+            var _this2 = this;
+
+            this.state.ContractInstance.InjectionID(function (err, result) {
+                if (result != null) {
+                    _this2.setState({
+                        InjectionID: parseInt(result)
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'setupListeners',
+        value: function setupListeners() {}
+
+        // returnInjectionID(){
+        //     return this.state.InjectionID;
+        // }
+
     }, {
         key: 'render',
         value: function render() {
@@ -10405,13 +10506,29 @@ var App = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'p',
+                    'h1',
                     null,
-                    ' try '
+                    'Choose Your Identity'
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'button',
+                    { onclick: 'getAuthorityPart()' },
+                    'AuthorityPart'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onclick: 'getHospitalPart()' },
+                    'HospitalPart'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onclick: 'getUserPart()' },
+                    'UserPart'
                 ),
                 _react2.default.createElement(
                     'div',
-                    { id: 'AuthorityPart' },
+                    { id: 'AuthorityPart', style: 'display: none;' },
                     _react2.default.createElement(
                         'h2',
                         null,
@@ -10422,13 +10539,39 @@ var App = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             'a',
-                            { href: '#DeliverPassport' },
+                            { onclick: 'getDeliverPassport()' },
                             'DeliverPassport'
                         ),
                         _react2.default.createElement(
                             'a',
-                            { href: '#ChangeTotalStatus' },
+                            { onclick: 'getChangeTotalStatus()' },
                             'ChangeTotalStatus'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'getGetList()' },
+                            'GetList'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'getGrantHospital()' },
+                            'GrantHospital'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'getGrantAuthority()' },
+                            'GrantAuthority'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'getLookUp()' },
+                            'LookUp'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'getDispose()' },
+                            'Dispose'
                         )
                     ),
                     _react2.default.createElement(
@@ -10436,24 +10579,122 @@ var App = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             'div',
-                            { id: 'DeliverPassport' },
-                            'DeliverPassport here'
+                            { id: 'DeliverPassport', style: 'display: none;' },
+                            'DeliverPassport here.',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the address of the user you need to send the passport:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the name of the receiver:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                ' Submit '
+                            )
                         ),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement('br', null),
                         _react2.default.createElement(
                             'div',
-                            { id: 'ChangeTotalStatus' },
-                            'ChangeTotalStatus here'
+                            { id: 'ChangeTotalStatus', style: 'display: none;' },
+                            'ChangeTotalStatus here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the address of the user:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the status you want to change to (0-2):',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'GetList', style: 'display: none;' },
+                            'GetList here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'This is the place for the unchecked list'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Get'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'GrantHospital', style: 'display: none;' },
+                            'Grant Hospital here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the address of the hospital to be granted:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'GrantAuthority', style: 'display: none;' },
+                            'Grant Authority here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the address of the authority to be granted:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'LookUp', style: 'display: none;' },
+                            'Look Up user\'s passport',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the user\'s address:',
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'Dispose', style: 'display: none;' },
+                            'Dispose unchecked vaccination',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the index of the vaccination waiting for dispose:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the proposal here (0-3):',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
                         )
                     )
                 ),
@@ -10464,6 +10705,90 @@ var App = function (_React$Component) {
                         'h2',
                         null,
                         'Here you are Hospital'
+                    ),
+                    _react2.default.createElement(
+                        'nav',
+                        null,
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'HosDeliverPassport()' },
+                            'DeliverPassport'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'HosLookUp()' },
+                            'LookUp'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'SubmitInfo()' },
+                            'SubmitInfo'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'section',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'HosDeliverPassport', style: 'display: none;' },
+                            'Hospital DeliverPassport here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the address of the user you need to send the passport:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the name of the receiver:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                ' Submit '
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'HosLookUp', style: 'display: none;' },
+                            'Hospital look up here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the user\'s address:',
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'SubmitInfo', style: 'display: none;' },
+                            'Submit Information here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            'Enter the authority\'s address:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the vaccine type:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the ID (address) of the user:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('br', null),
+                            'Enter the date of vaccination:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -10473,6 +10798,88 @@ var App = function (_React$Component) {
                         'h2',
                         null,
                         'Here you are User'
+                    ),
+                    _react2.default.createElement(
+                        'nav',
+                        null,
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'GetPassport()' },
+                            'GetPassport'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'UserGetList()' },
+                            'GetList'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'a',
+                            { onclick: 'Specific()' },
+                            'SpecificVaccine'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'section',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'GetPassport', style: 'display: none;' },
+                            'Get your own vaccine passport here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'This is the place for passport information'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Get'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'UserGetList', style: 'display: none;' },
+                            'Get your vaccination list here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'This is the place for your vaccination list'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Get'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'Specific', style: 'display: none;' },
+                            'Search for your specific vaccination here',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'This is place for the specific vaccination by index'
+                            ),
+                            _react2.default.createElement('br', null),
+                            'Enter the index of vaccination list:',
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Get'
+                            )
+                        )
                     )
                 )
             );
