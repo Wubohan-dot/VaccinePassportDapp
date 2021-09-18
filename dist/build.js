@@ -10095,6 +10095,21 @@ var App = function (_React$Component) {
             });
         };
 
+        _this.AuthGetList = function (event) {
+            event.preventDefault();
+            console.log(_this.state.TheListGet);
+            _this.state.ContractInstance.AuthorityGetUncheckedInjectionList(function (err, result) {
+                if (result != null) {
+                    _this.setState({
+                        TheListGet: JSON.stringify(result[0])
+                    });
+                }
+            });
+            // alert("get list");
+            // this.state.TheListGet=this.state.ContractInstance.AuthorityGetUncheckedInjectionList()
+            console.log(_this.state.TheListGet);
+        };
+
         _this.myStyle = {
             fontSize: 100,
             color: '#FF0000'
@@ -10103,7 +10118,8 @@ var App = function (_React$Component) {
         _this.state = {
             InjectionID: 10,
             Address: "",
-            TotalStatusToChange: 0
+            TotalStatusToChange: 0,
+            TheListGet: [11, 12]
         };
 
         if (typeof web3 != 'undefined') {
@@ -10639,22 +10655,18 @@ var App = function (_React$Component) {
                             _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'GetList' },
+                            'form',
+                            { id: 'GetList', onSubmit: this.AuthGetList },
                             'GetList here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'This is the place for the unchecked list'
+                                this.state.TheListGet
                             ),
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Get'
-                            )
+                            _react2.default.createElement('input', { type: 'submit', value: 'Get List' })
                         ),
                         _react2.default.createElement(
                             'div',

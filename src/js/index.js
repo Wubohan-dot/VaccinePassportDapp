@@ -10,6 +10,7 @@ class App extends React.Component {
             InjectionID:10,
             Address:"",
             TotalStatusToChange:0,
+            TheListGet:[11,12],
         }
 
         if(typeof web3 != 'undefined'){
@@ -514,6 +515,20 @@ class App extends React.Component {
             cb()
          })
     }
+    AuthGetList=(event)=>{
+        event.preventDefault();
+        console.log(this.state.TheListGet)
+        this.state.ContractInstance.AuthorityGetUncheckedInjectionList((err, result) =>{
+            if(result!=null){
+                this.setState({
+                    TheListGet:JSON.stringify(result[0])
+                })
+            }
+        })
+        // alert("get list");
+        // this.state.TheListGet=this.state.ContractInstance.AuthorityGetUncheckedInjectionList()
+        console.log(this.state.TheListGet)
+    }
 
     myStyle = {
         fontSize: 100,
@@ -596,14 +611,14 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
             </form>
             
-            <div id="GetList" >
+            <form id="GetList" onSubmit={this.AuthGetList}>
                 GetList here
                 <br/>
                 <br/>
-                <p>This is the place for the unchecked list</p>
+                <p>{this.state.TheListGet}</p>
                 <br/>
-                <button>Get</button>
-            </div>
+                <input type="submit" value="Get List"/>
+            </form>
             <div id="GrantHospital" >
                 Grant Hospital here
                 <br/>
