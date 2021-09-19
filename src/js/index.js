@@ -11,6 +11,18 @@ class App extends React.Component {
             Address:"",
             TotalStatusToChange:0,
             TheListGet:[11,12],
+            Name:"",
+            AuthAddress:"",
+            HosAddress:"",
+            LookUpInfo:"",
+            DisposeNum:0,
+            DisposeProposal:0,
+            Kind:"",
+            Date:"",
+            PassportInfo:"",
+            TheListUserGet:[11,12],
+            Specific:"",
+            SpecificIndex:0,
         }
 
         if(typeof web3 != 'undefined'){
@@ -494,7 +506,7 @@ class App extends React.Component {
                 "type": "function"
             }
         ])
-         this.state.ContractInstance = MyContract.at('0x6bA2742E6143D4963f06dd235624C6F4c890D411')
+         this.state.ContractInstance = MyContract.at('0x645779853F5b849D54139CbFEf9EeF2A35467542')
 
          window.a = this.state
 
@@ -529,6 +541,78 @@ class App extends React.Component {
         // this.state.TheListGet=this.state.ContractInstance.AuthorityGetUncheckedInjectionList()
         console.log(this.state.TheListGet)
     }
+    DeliverPassport=(event)=>{
+        event.preventDefault();
+        this.state.ContractInstance.deliverPassport(this.state.Address,this.state.Name,{
+            gas:30000
+        },(err,result)=>{})
+    }
+    LookUp=(event)=>{
+        event.preventDefault();
+        this.state.ContractInstance.looUp(this.state.Address,{
+            gas:30000
+        },(err,result)=>{
+            if(result!=null){
+                this.setState({
+                    LookUpInfo:JSON.stringify(result)
+                })
+            }
+        })
+    }
+    AuthGrantAuth=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.grantAuthority(this.state.AuthAddress,(err,result)=>{})
+    }
+    AuthGrantHos=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.grantHospitals(this.state.HosAddress,(err,result)=>{})
+    }
+    AuthDispose=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.AuthorityDisposeUncheckedInjection(this.state.DisposeNum,this.state.DisposeProposal,(err,result)=>{})
+    }
+
+    HosSubmitInfo=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.HospHospitalSubmitInfomation(
+            this.state.AuthAddress,this.state.Kind,this.state.Address,this.state.Date,
+            (error,result)=>{
+
+            }
+        )
+    }
+    
+    UserGetPassport=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.VaccinatedOneGetHisPassport((error,result)=>{
+            if(result!=null){
+                this.setState({
+                    PassportInfo:JSON.stringify(result)
+                })
+            }
+        })
+    }
+    UserGetList=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.VaccinatedOneGetList(this.state.SpecificIndex,(error,result)=>{
+            if(result!=null){
+                this.setState({
+                    TheListUserGet:JSON.stringify(result)
+                })
+            }
+        })
+    }
+    UserGetSpecific=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.showSpecificInjection((error,result)=>{
+            if(result!=null){
+                this.setState({
+                    Specific:JSON.stringify(result)
+                })
+            }
+        })
+    }
+    
 
     myStyle = {
         fontSize: 100,
@@ -583,19 +667,19 @@ class App extends React.Component {
                     <a onclick="getDispose()">Dispose</a>
                 </nav> 
             <section>
-            <div id="DeliverPassport" >
-                DeliverPassport here. 
+            <form id="DeliverPassport" onsubmit={this.DeliverPassport}>
+                Deliver {this.state.Name}({this.state.Address}) a Passport here. 
                 <br/>
                 <br/>
                 Enter the address of the user you need to send the passport:
                 <br/>
-                <input type="text"/>
+                <input type="text" name='Address' onChange={this.myChangeHandler}/>
                 <br/>
                 Enter the name of the receiver:
                 <br/>
-                <input type="text"/>
-                <button> Submit </button>
-            </div>
+                <input type="text" name='Name' onChange={this.myChangeHandler}/>
+                <input type='submit' value='Submit'/>
+            </form>
             
             <form id="ChangeTotalStatus" onSubmit={this.AuthChangeTotalStatus}>
                 Change {this.state.Address} state to {this.state.TotalStatusToChange}
@@ -619,46 +703,47 @@ class App extends React.Component {
                 <br/>
                 <input type="submit" value="Get List"/>
             </form>
-            <div id="GrantHospital" >
-                Grant Hospital here
+            <form id="GrantHospital" onsubmit={this.AuthGrantHos}>
+                Grant Hospital {this.state.HosAddress} here
                 <br/>
                 <br/>
                 Enter the address of the hospital to be granted:
                 <br/>
-                <input type="text"/>
-                <button>Submit</button>
-            </div>
+                <input type="text" name="HosAddress" onChange={this.myChangeHandler}/>
+                <input type='submit' value='Submit'/>
+            </form>
         
-            <div id="GrantAuthority" >
-                Grant Authority here
+            <form id="GrantHospital" onsubmit={this.AuthGrantAuth}>
+                Grant Authority {this.state.AuthAddress} here
                 <br/>
                 <br/>
                 Enter the address of the authority to be granted:
                 <br/>
-                <input type="text"/>
-                <button>Submit</button>
-            </div>
-            <form id="LookUp" >
+                <input type="text" name="AuthAddress" onChange={this.myChangeHandler}/>
+                <input type='submit' value='Submit'/>
+            </form>
+            <form id="LookUp" onsubmit={this.LookUp}>
                 Look Up user's passport
                 <br/>
                 <br/>
                 Enter the user's address:
-                <input type="text"/>
-                <button>Submit</button>
+                <input type="text" name='Address' onChange={this.myChangeHandler}/>
+                <input type='submit' value='Submit'/>
+                <p>{this.state.LookUpInfo}</p>
             </form>
-            <div id="Dispose" >
+            <form id="Dispose" onsubmit={this.AuthDispose}>
                 Dispose unchecked vaccination
                 <br/>
                 <br/>
                 Enter the index of the vaccination waiting for dispose:
                 <br/>
-                <input type="text"/>
+                <input type="number" name="DisposeNum" onChange={this.myChangeHandler}/>
                 <br/>
-                Enter the proposal here (0-3):
+                Enter the proposal here:
                 <br/>
-                <input type="text"/>
-                <button>Submit</button>
-            </div>
+                <input type="number" name="DisposeProposal" onChange={this.myChangeHandler}/>
+                <input type='submit' value='Submit'/>
+            </form>
     
 
             </section>
@@ -674,40 +759,40 @@ class App extends React.Component {
             
             </nav>
             <section>
-                <div id="HosDeliverPassport" >
+                <form id="HosDeliverPassport" onsubmit={this.DeliverPassport}>
                     Hospital DeliverPassport here
                     <br/>
                     <br/>
                     Enter the address of the user you need to send the passport:
                     <br/>
-                    <input type="text"/>
+                    <input type="text" name="Address" onChange={this.myChangeHandler}/>
                     <br/>
                     Enter the name of the receiver:
                     <br/>
-                    <input type="text"/>
-                    <button> Submit </button>
-                </div>
+                    <input type="text" name="Name" onChange={this.myChangeHandler}/>
+                    <input type="submit" value="submit"></input>
+                </form>
                 
-                <div id="HosLookUp" >
+                <form id="HosLookUp" onsubmit={this.LookUp}>
                     Hospital look up here
                     <br/>
                     <br/>
                     Enter the user's address:
-                    <input type="text"/>
-                    <button>Submit</button>
-                </div>
+                    <input type="text" name="Address" onChange={this.myChangeHandler}/>
+                    <input type="submit" value="submit"></input>
+                </form>
             
-                <div id="SubmitInfo" >
+                <form id="SubmitInfo" onsubmit={this.HosSubmitInfo}>
                 Submit Information here
                 <br/>
                 <br/>
                 Enter the authority's address:
                 <br/>
-                <input type="text"/>
+                <input type="text" name="AuthAddress" onChange={this.myChangeHandler}/>
                 <br/>
                 Enter the vaccine type:
                 <br/>
-                <input type="text"/>
+                <input type="text" name="Kind" onChange={this.myChangeHandler}/>
                 <br/>
                 Enter the ID (address) of the user:
                 <br/>
@@ -715,9 +800,9 @@ class App extends React.Component {
                 <br/>
                 Enter the date of vaccination:
                 <br/>
-                <input type="text" placeholder={new Date().toLocaleTimeString()}></input>
-                <button>Submit</button>
-                </div>
+                <input type="text" name="Date" onChange={this.myChangeHandler} placeholder={new Date().toLocaleTimeString()}></input>
+                <input type="submit" value="submit"></input>
+                </form>
                 
             </section>
             </div>
@@ -733,25 +818,25 @@ class App extends React.Component {
             
             </nav>
             <section>
-                <div id="GetPassport" >
+                <form id="GetPassport" onSubmit={this.UserGetPassport}>
                     Get your own vaccine passport here
                     <br/>
                     <br/>
-                    <p>This is the place for passport information</p>
+                    <p>{this.state.PassportInfo}</p>
                     <br/>
-                    <button>Get</button>
-                </div>
+                    <input type="submit" value="submit"></input>
+                </form>
                 
-                <div id="UserGetList" >
+                <form id="UserGetList" onSubmit={this.UserGetList}>
                     Get your vaccination list here
                     <br/>
                     <br/>
-                    <p>This is the place for your vaccination list</p>
+                    <p>{this.state.TheListUserGet}</p>
                     <br/>
-                    <button>Get</button>
-                </div>
+                    <input type="submit" value="submit"></input>
+                </form>
             
-                <div id="Specific" >
+                <form id="Specific" onsubmit={this.UserGetSpecific}>
                 Search for your specific vaccination here
                 <br/>
                 <br/>
@@ -759,9 +844,9 @@ class App extends React.Component {
                 <br/>
                 Enter the index of vaccination list:
                 <br/>
-                <input type="text"/>
-                <button>Get</button>
-                </div>
+                <input type="number" name="SpecificIndex" onChange={this.myChangeHandler}/>
+                <input type="submit" value="submit"></input>
+                </form>
                 
             </section>
             </div>

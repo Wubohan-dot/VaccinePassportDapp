@@ -10110,6 +10110,79 @@ var App = function (_React$Component) {
             console.log(_this.state.TheListGet);
         };
 
+        _this.DeliverPassport = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.deliverPassport(_this.state.Address, _this.state.Name, {
+                gas: 30000
+            }, function (err, result) {});
+        };
+
+        _this.LookUp = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.looUp(_this.state.Address, {
+                gas: 30000
+            }, function (err, result) {
+                if (result != null) {
+                    _this.setState({
+                        LookUpInfo: JSON.stringify(result)
+                    });
+                }
+            });
+        };
+
+        _this.AuthGrantAuth = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.grantAuthority(_this.state.AuthAddress, function (err, result) {});
+        };
+
+        _this.AuthGrantHos = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.grantHospitals(_this.state.HosAddress, function (err, result) {});
+        };
+
+        _this.AuthDispose = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.AuthorityDisposeUncheckedInjection(_this.state.DisposeNum, _this.state.DisposeProposal, function (err, result) {});
+        };
+
+        _this.HosSubmitInfo = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.HospHospitalSubmitInfomation(_this.state.AuthAddress, _this.state.Kind, _this.state.Address, _this.state.Date, function (error, result) {});
+        };
+
+        _this.UserGetPassport = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.VaccinatedOneGetHisPassport(function (error, result) {
+                if (result != null) {
+                    _this.setState({
+                        PassportInfo: JSON.stringify(result)
+                    });
+                }
+            });
+        };
+
+        _this.UserGetList = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.VaccinatedOneGetList(_this.state.SpecificIndex, function (error, result) {
+                if (result != null) {
+                    _this.setState({
+                        TheListUserGet: JSON.stringify(result)
+                    });
+                }
+            });
+        };
+
+        _this.UserGetSpecific = function (event) {
+            event.preventDefault();
+            _this.state.ContractInstance.showSpecificInjection(function (error, result) {
+                if (result != null) {
+                    _this.setState({
+                        Specific: JSON.stringify(result)
+                    });
+                }
+            });
+        };
+
         _this.myStyle = {
             fontSize: 100,
             color: '#FF0000'
@@ -10119,7 +10192,19 @@ var App = function (_React$Component) {
             InjectionID: 10,
             Address: "",
             TotalStatusToChange: 0,
-            TheListGet: [11, 12]
+            TheListGet: [11, 12],
+            Name: "",
+            AuthAddress: "",
+            HosAddress: "",
+            LookUpInfo: "",
+            DisposeNum: 0,
+            DisposeProposal: 0,
+            Kind: "",
+            Date: "",
+            PassportInfo: "",
+            TheListUserGet: [11, 12],
+            Specific: "",
+            SpecificIndex: 0
         };
 
         if (typeof web3 != 'undefined') {
@@ -10504,7 +10589,7 @@ var App = function (_React$Component) {
             "stateMutability": "view",
             "type": "function"
         }]);
-        _this.state.ContractInstance = MyContract.at('0x6bA2742E6143D4963f06dd235624C6F4c890D411');
+        _this.state.ContractInstance = MyContract.at('0x645779853F5b849D54139CbFEf9EeF2A35467542');
 
         window.a = _this.state;
 
@@ -10618,23 +10703,23 @@ var App = function (_React$Component) {
                         'section',
                         null,
                         _react2.default.createElement(
-                            'div',
-                            { id: 'DeliverPassport' },
-                            'DeliverPassport here.',
+                            'form',
+                            { id: 'DeliverPassport', onsubmit: this.DeliverPassport },
+                            'Deliver ',
+                            this.state.Name,
+                            '(',
+                            this.state.Address,
+                            ') a Passport here.',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the address of the user you need to send the passport:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'Address', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
                             'Enter the name of the receiver:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                ' Submit '
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'Name', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
                         ),
                         _react2.default.createElement(
                             'form',
@@ -10669,67 +10754,60 @@ var App = function (_React$Component) {
                             _react2.default.createElement('input', { type: 'submit', value: 'Get List' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'GrantHospital' },
-                            'Grant Hospital here',
+                            'form',
+                            { id: 'GrantHospital', onsubmit: this.AuthGrantHos },
+                            'Grant Hospital ',
+                            this.state.HosAddress,
+                            ' here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the address of the hospital to be granted:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Submit'
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'HosAddress', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'GrantAuthority' },
-                            'Grant Authority here',
+                            'form',
+                            { id: 'GrantHospital', onsubmit: this.AuthGrantAuth },
+                            'Grant Authority ',
+                            this.state.AuthAddress,
+                            ' here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the address of the authority to be granted:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Submit'
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'AuthAddress', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'LookUp' },
+                            { id: 'LookUp', onsubmit: this.LookUp },
                             'Look Up user\'s passport',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the user\'s address:',
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'Address', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'Submit' }),
                             _react2.default.createElement(
-                                'button',
+                                'p',
                                 null,
-                                'Submit'
+                                this.state.LookUpInfo
                             )
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'Dispose' },
+                            'form',
+                            { id: 'Dispose', onsubmit: this.AuthDispose },
                             'Dispose unchecked vaccination',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the index of the vaccination waiting for dispose:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'number', name: 'DisposeNum', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
-                            'Enter the proposal here (0-3):',
+                            'Enter the proposal here:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Submit'
-                            )
+                            _react2.default.createElement('input', { type: 'number', name: 'DisposeProposal', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
                         )
                     )
                 ),
@@ -10765,51 +10843,43 @@ var App = function (_React$Component) {
                         'section',
                         null,
                         _react2.default.createElement(
-                            'div',
-                            { id: 'HosDeliverPassport' },
+                            'form',
+                            { id: 'HosDeliverPassport', onsubmit: this.DeliverPassport },
                             'Hospital DeliverPassport here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the address of the user you need to send the passport:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'Address', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
                             'Enter the name of the receiver:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                ' Submit '
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'Name', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'HosLookUp' },
+                            'form',
+                            { id: 'HosLookUp', onsubmit: this.LookUp },
                             'Hospital look up here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the user\'s address:',
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Submit'
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'Address', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'SubmitInfo' },
+                            'form',
+                            { id: 'SubmitInfo', onsubmit: this.HosSubmitInfo },
                             'Submit Information here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             'Enter the authority\'s address:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'AuthAddress', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
                             'Enter the vaccine type:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'Kind', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
                             'Enter the ID (address) of the user:',
                             _react2.default.createElement('br', null),
@@ -10817,12 +10887,8 @@ var App = function (_React$Component) {
                             _react2.default.createElement('br', null),
                             'Enter the date of vaccination:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text', placeholder: new Date().toLocaleTimeString() }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Submit'
-                            )
+                            _react2.default.createElement('input', { type: 'text', name: 'Date', onChange: this.myChangeHandler, placeholder: new Date().toLocaleTimeString() }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         )
                     )
                 ),
@@ -10859,44 +10925,36 @@ var App = function (_React$Component) {
                         'section',
                         null,
                         _react2.default.createElement(
-                            'div',
-                            { id: 'GetPassport' },
+                            'form',
+                            { id: 'GetPassport', onSubmit: this.UserGetPassport },
                             'Get your own vaccine passport here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'This is the place for passport information'
+                                this.state.PassportInfo
                             ),
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Get'
-                            )
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'UserGetList' },
+                            'form',
+                            { id: 'UserGetList', onSubmit: this.UserGetList },
                             'Get your vaccination list here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'This is the place for your vaccination list'
+                                this.state.TheListUserGet
                             ),
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Get'
-                            )
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { id: 'Specific' },
+                            'form',
+                            { id: 'Specific', onsubmit: this.UserGetSpecific },
                             'Search for your specific vaccination here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10908,12 +10966,8 @@ var App = function (_React$Component) {
                             _react2.default.createElement('br', null),
                             'Enter the index of vaccination list:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                'Get'
-                            )
+                            _react2.default.createElement('input', { type: 'number', name: 'SpecificIndex', onChange: this.myChangeHandler }),
+                            _react2.default.createElement('input', { type: 'submit', value: 'submit' })
                         )
                     )
                 )
