@@ -543,14 +543,13 @@ class App extends React.Component {
     }
     DeliverPassport=(event)=>{
         event.preventDefault();
-        this.state.ContractInstance.deliverPassport(this.state.Address,this.state.Name,{
-            gas:30000
-        },(err,result)=>{})
+        alert(this.state.Address+"  "+this.state.Name);
+        this.state.ContractInstance.deliverPassport(this.state.Address,this.state.Name,{gas:300000},(err,result)=>{})
     }
     LookUp=(event)=>{
         event.preventDefault();
-        this.state.ContractInstance.looUp(this.state.Address,{
-            gas:30000
+        this.state.ContractInstance.LookUp(this.state.Address,{
+            gas:300000
         },(err,result)=>{
             if(result!=null){
                 this.setState({
@@ -574,7 +573,7 @@ class App extends React.Component {
 
     HosSubmitInfo=(event)=>{
         event.preventDefault()
-        this.state.ContractInstance.HospHospitalSubmitInfomation(
+        this.state.ContractInstance.HospitalSubmitInfomation(
             this.state.AuthAddress,this.state.Kind,this.state.Address,this.state.Date,
             (error,result)=>{
 
@@ -594,7 +593,7 @@ class App extends React.Component {
     }
     UserGetList=(event)=>{
         event.preventDefault()
-        this.state.ContractInstance.VaccinatedOneGetList(this.state.SpecificIndex,(error,result)=>{
+        this.state.ContractInstance.VaccinatedOneGetList((error,result)=>{
             if(result!=null){
                 this.setState({
                     TheListUserGet:JSON.stringify(result)
@@ -604,7 +603,7 @@ class App extends React.Component {
     }
     UserGetSpecific=(event)=>{
         event.preventDefault()
-        this.state.ContractInstance.showSpecificInjection((error,result)=>{
+        this.state.ContractInstance.showSpecificInjection(this.state.SpecificIndex,(error,result)=>{
             if(result!=null){
                 this.setState({
                     Specific:JSON.stringify(result)
@@ -667,7 +666,7 @@ class App extends React.Component {
                     <a onclick="getDispose()">Dispose</a>
                 </nav> 
             <section>
-            <form id="DeliverPassport" onsubmit={this.DeliverPassport}>
+            <form id="DeliverPassport" onSubmit={this.DeliverPassport}>
                 Deliver {this.state.Name}({this.state.Address}) a Passport here. 
                 <br/>
                 <br/>
@@ -703,7 +702,7 @@ class App extends React.Component {
                 <br/>
                 <input type="submit" value="Get List"/>
             </form>
-            <form id="GrantHospital" onsubmit={this.AuthGrantHos}>
+            <form id="GrantHospital" onSubmit={this.AuthGrantHos}>
                 Grant Hospital {this.state.HosAddress} here
                 <br/>
                 <br/>
@@ -713,7 +712,7 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
             </form>
         
-            <form id="GrantHospital" onsubmit={this.AuthGrantAuth}>
+            <form id="GrantHospital" onSubmit={this.AuthGrantAuth}>
                 Grant Authority {this.state.AuthAddress} here
                 <br/>
                 <br/>
@@ -722,7 +721,7 @@ class App extends React.Component {
                 <input type="text" name="AuthAddress" onChange={this.myChangeHandler}/>
                 <input type='submit' value='Submit'/>
             </form>
-            <form id="LookUp" onsubmit={this.LookUp}>
+            <form id="LookUp" onSubmit={this.LookUp}>
                 Look Up user's passport
                 <br/>
                 <br/>
@@ -731,7 +730,7 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
                 <p>{this.state.LookUpInfo}</p>
             </form>
-            <form id="Dispose" onsubmit={this.AuthDispose}>
+            <form id="Dispose" onSubmit={this.AuthDispose}>
                 Dispose unchecked vaccination
                 <br/>
                 <br/>
@@ -759,7 +758,7 @@ class App extends React.Component {
             
             </nav>
             <section>
-                <form id="HosDeliverPassport" onsubmit={this.DeliverPassport}>
+                <form id="HosDeliverPassport" onSubmit={this.DeliverPassport}>
                     Hospital DeliverPassport here
                     <br/>
                     <br/>
@@ -773,7 +772,7 @@ class App extends React.Component {
                     <input type="submit" value="submit"></input>
                 </form>
                 
-                <form id="HosLookUp" onsubmit={this.LookUp}>
+                <form id="HosLookUp" onSubmit={this.LookUp}>
                     Hospital look up here
                     <br/>
                     <br/>
@@ -782,7 +781,7 @@ class App extends React.Component {
                     <input type="submit" value="submit"></input>
                 </form>
             
-                <form id="SubmitInfo" onsubmit={this.HosSubmitInfo}>
+                <form id="SubmitInfo" onSubmit={this.HosSubmitInfo}>
                 Submit Information here
                 <br/>
                 <br/>
@@ -796,7 +795,7 @@ class App extends React.Component {
                 <br/>
                 Enter the ID (address) of the user:
                 <br/>
-                <input type="text"/>
+                <input type="text" name="Address" onChange={this.myChangeHandler}/>
                 <br/>
                 Enter the date of vaccination:
                 <br/>
@@ -836,11 +835,11 @@ class App extends React.Component {
                     <input type="submit" value="submit"></input>
                 </form>
             
-                <form id="Specific" onsubmit={this.UserGetSpecific}>
+                <form id="Specific" onSubmit={this.UserGetSpecific}>
                 Search for your specific vaccination here
                 <br/>
                 <br/>
-                <p>This is place for the specific vaccination by index</p>
+                <p>{this.state.Specific}</p>
                 <br/>
                 Enter the index of vaccination list:
                 <br/>

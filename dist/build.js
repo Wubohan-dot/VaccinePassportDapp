@@ -10112,15 +10112,14 @@ var App = function (_React$Component) {
 
         _this.DeliverPassport = function (event) {
             event.preventDefault();
-            _this.state.ContractInstance.deliverPassport(_this.state.Address, _this.state.Name, {
-                gas: 30000
-            }, function (err, result) {});
+            alert(_this.state.Address + "  " + _this.state.Name);
+            _this.state.ContractInstance.deliverPassport(_this.state.Address, _this.state.Name, { gas: 300000 }, function (err, result) {});
         };
 
         _this.LookUp = function (event) {
             event.preventDefault();
-            _this.state.ContractInstance.looUp(_this.state.Address, {
-                gas: 30000
+            _this.state.ContractInstance.LookUp(_this.state.Address, {
+                gas: 300000
             }, function (err, result) {
                 if (result != null) {
                     _this.setState({
@@ -10147,7 +10146,7 @@ var App = function (_React$Component) {
 
         _this.HosSubmitInfo = function (event) {
             event.preventDefault();
-            _this.state.ContractInstance.HospHospitalSubmitInfomation(_this.state.AuthAddress, _this.state.Kind, _this.state.Address, _this.state.Date, function (error, result) {});
+            _this.state.ContractInstance.HospitalSubmitInfomation(_this.state.AuthAddress, _this.state.Kind, _this.state.Address, _this.state.Date, function (error, result) {});
         };
 
         _this.UserGetPassport = function (event) {
@@ -10163,7 +10162,7 @@ var App = function (_React$Component) {
 
         _this.UserGetList = function (event) {
             event.preventDefault();
-            _this.state.ContractInstance.VaccinatedOneGetList(_this.state.SpecificIndex, function (error, result) {
+            _this.state.ContractInstance.VaccinatedOneGetList(function (error, result) {
                 if (result != null) {
                     _this.setState({
                         TheListUserGet: JSON.stringify(result)
@@ -10174,7 +10173,7 @@ var App = function (_React$Component) {
 
         _this.UserGetSpecific = function (event) {
             event.preventDefault();
-            _this.state.ContractInstance.showSpecificInjection(function (error, result) {
+            _this.state.ContractInstance.showSpecificInjection(_this.state.SpecificIndex, function (error, result) {
                 if (result != null) {
                     _this.setState({
                         Specific: JSON.stringify(result)
@@ -10704,7 +10703,7 @@ var App = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             'form',
-                            { id: 'DeliverPassport', onsubmit: this.DeliverPassport },
+                            { id: 'DeliverPassport', onSubmit: this.DeliverPassport },
                             'Deliver ',
                             this.state.Name,
                             '(',
@@ -10755,7 +10754,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'GrantHospital', onsubmit: this.AuthGrantHos },
+                            { id: 'GrantHospital', onSubmit: this.AuthGrantHos },
                             'Grant Hospital ',
                             this.state.HosAddress,
                             ' here',
@@ -10768,7 +10767,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'GrantHospital', onsubmit: this.AuthGrantAuth },
+                            { id: 'GrantHospital', onSubmit: this.AuthGrantAuth },
                             'Grant Authority ',
                             this.state.AuthAddress,
                             ' here',
@@ -10781,7 +10780,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'LookUp', onsubmit: this.LookUp },
+                            { id: 'LookUp', onSubmit: this.LookUp },
                             'Look Up user\'s passport',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10796,7 +10795,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'Dispose', onsubmit: this.AuthDispose },
+                            { id: 'Dispose', onSubmit: this.AuthDispose },
                             'Dispose unchecked vaccination',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10844,7 +10843,7 @@ var App = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             'form',
-                            { id: 'HosDeliverPassport', onsubmit: this.DeliverPassport },
+                            { id: 'HosDeliverPassport', onSubmit: this.DeliverPassport },
                             'Hospital DeliverPassport here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10859,7 +10858,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'HosLookUp', onsubmit: this.LookUp },
+                            { id: 'HosLookUp', onSubmit: this.LookUp },
                             'Hospital look up here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10869,7 +10868,7 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'SubmitInfo', onsubmit: this.HosSubmitInfo },
+                            { id: 'SubmitInfo', onSubmit: this.HosSubmitInfo },
                             'Submit Information here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -10883,7 +10882,7 @@ var App = function (_React$Component) {
                             _react2.default.createElement('br', null),
                             'Enter the ID (address) of the user:',
                             _react2.default.createElement('br', null),
-                            _react2.default.createElement('input', { type: 'text' }),
+                            _react2.default.createElement('input', { type: 'text', name: 'Address', onChange: this.myChangeHandler }),
                             _react2.default.createElement('br', null),
                             'Enter the date of vaccination:',
                             _react2.default.createElement('br', null),
@@ -10954,14 +10953,14 @@ var App = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'form',
-                            { id: 'Specific', onsubmit: this.UserGetSpecific },
+                            { id: 'Specific', onSubmit: this.UserGetSpecific },
                             'Search for your specific vaccination here',
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'This is place for the specific vaccination by index'
+                                this.state.Specific
                             ),
                             _react2.default.createElement('br', null),
                             'Enter the index of vaccination list:',
