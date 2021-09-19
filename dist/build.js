@@ -47622,7 +47622,7 @@ exports = module.exports = __webpack_require__(106)(false);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "header {\r\n    background-color:rgba(65, 18, 6, 0.767);\r\n    color:white;\r\n    text-align:center;\r\n    padding:5px;\t \r\n    font-style: italic;\r\n}\r\nnav {\r\n    line-height:30px;\r\n    background-color:rgba(65, 18, 6, 0.25);\r\n    height:300px;\r\n    width:150px;\r\n    float:left;\r\n    padding:20px;\t      \r\n}\r\nsection {\r\n    width:350px;\r\n    float:left;\r\n    padding:10px;\t \t \r\n}\r\nfooter {\r\n    background-color:black;\r\n    color:white;\r\n    clear:both;\r\n    text-align:center;\r\n    padding:5px;\t \t \r\n}", ""]);
 
 // exports
 
