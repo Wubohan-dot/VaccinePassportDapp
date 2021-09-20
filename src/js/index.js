@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Web3 from 'web3'
+import { Table, Tag, Space } from 'antd';
 import './../css/index.css'
 
 class App extends React.Component {
@@ -19,10 +20,82 @@ class App extends React.Component {
             DisposeProposal:0,
             Kind:"",
             Date:"",
-            PassportInfo:"",
+            PassportInfo:[],
             TheListUserGet:[11,12],
             Specific:"",
             SpecificIndex:0,
+            TestSpecific:{},
+            columnPassport: [
+                {
+                    title: "Address",
+                    dataIndex: "address",
+                    key: "address",
+                },
+                {
+                    title: "Name",
+                    dataIndex: "name",
+                    key: "name",
+                },
+                {
+                    title: "Status",
+                    dataIndex: "status",
+                    key: "status",
+                }
+            ],
+            columnSpecific: [
+                {
+                    title: "VaccinationID",
+                    dataIndex: "VaccinationID",
+                    key: "VaccinationID",
+                },
+                {
+                    title: "VaccineKind",
+                    dataIndex: "VaccineKind",
+                    key: "VaccineKind",
+                },
+                {
+                    title: "ID",
+                    dataIndex: "ID",
+                    key: "ID",
+                },
+                {
+                    title: "Date",
+                    dataIndex: "date",
+                    key: "date",
+                },
+                {
+                    title: "VaccinationIndex",
+                    dataIndex: "VaccinationIndex",
+                    key: "VaccinationIndex",
+                },
+                {
+                    title: "VaccinationStatus",
+                    dataIndex: "VaccinationStatus",
+                    key: "VaccinationStatus",
+                }
+            ],
+            columnLookUp: [
+                {
+                    title: "Address",
+                    dataIndex: "address",
+                    key: "address",
+                },
+                {
+                    title: "Name",
+                    dataIndex: "name",
+                    key: "name",
+                },
+                {
+                    title: "VaccinationNumber",
+                    dataIndex: "index",
+                    key: "index"
+                },
+                {
+                    title: "Status",
+                    dataIndex: "status",
+                    key: "status",
+                }
+            ],
         }
 
         if(typeof web3 != 'undefined'){
@@ -552,8 +625,30 @@ class App extends React.Component {
             gas:300000
         },(err,result)=>{
             if(result!=null){
+                let info = JSON.parse(JSON.stringify(result))
+                console.log(info.length)
+                let stat
+                if (parseInt(info[3]) == 0) {
+                    stat = "Not vaccinated"
+                }
+                else if (parseInt(info[3]) == 1) {
+                    stat = "Waiting for authorization"
+                }
+                else {
+                    stat = "Vaccinated"
+                }
+                let x = []
+                let dict = {
+                    "address": info[0], 
+                    "name": info[1], 
+                    "index": info[2],
+                    "status": stat,
+                    key: 1,
+                }
+                x.push(dict)
+
                 this.setState({
-                    LookUpInfo:JSON.stringify(result)
+                    LookUpInfo: x
                 })
             }
         })
@@ -585,15 +680,60 @@ class App extends React.Component {
         event.preventDefault()
         this.state.ContractInstance.VaccinatedOneGetHisPassport((error,result)=>{
             if(result!=null){
+                let info = JSON.parse(JSON.stringify(result))
+                let stat
+                if (parseInt(info[2]) == 0) {
+                    stat = "Not vaccinated"
+                }
+                else if (parseInt(info[2]) == 1) {
+                    stat = "Waiting for authorization"
+                }
+                else {
+                    stat = "Vaccinated"
+                }
+                let x = []
+                let dict = {
+                    "address": info[0], 
+                    "name": info[1], 
+                    "status": stat,
+                    key: 1,
+                }
+                x.push(dict)
                 this.setState({
-                    PassportInfo:JSON.stringify(result)
+                    PassportInfo: x
                 })
+                console.log(this.state.PassportInfo[0])
             }
         })
     }
     UserGetList=(event)=>{
         event.preventDefault()
         this.state.ContractInstance.VaccinatedOneGetList((error,result)=>{
+            let vDict = JSON.parse(JSON.stringify(result))
+            let length = vDict.length
+            console.log(length)
+            let temp = []
+            for(let i = 0; i < length; i++) {
+                this.state.ContractInstance.showSpecificInjection(i, (err, res) => {
+                    if(res != null) {
+                        let info = JSON.parse(JSON.stringify(res))
+                        console.log(info[1])
+                        let infoo = {
+                            "VaccinationID": info[0],
+                            "VaccineKind": info[1],
+                            "ID": info[2],
+                            "date": info[3],
+                            "VaccinationIndex": info[4],
+                            "VaccinationStatus": info[5],
+                        }
+                        this.setState({
+                            TestSpecific: infoo
+                        })
+                    }
+                })
+                temp.push(this.state.TestSpecific)
+            }
+            console.log(temp[0])
             if(result!=null){
                 this.setState({
                     TheListUserGet:JSON.stringify(result)
@@ -605,8 +745,22 @@ class App extends React.Component {
         event.preventDefault()
         this.state.ContractInstance.showSpecificInjection(this.state.SpecificIndex,(error,result)=>{
             if(result!=null){
+                let info = JSON.parse(JSON.stringify(result))
+                console.log(info[1])
+                let infoo = {
+                    "VaccinationID": info[0],
+                    "VaccineKind": info[1],
+                    "ID": info[2],
+                    "date": info[3],
+                    "VaccinationIndex": info[4],
+                    "VaccinationStatus": info[5],
+                    key: 1
+                }
+                let x = []
+                x.push(infoo)
+                
                 this.setState({
-                    Specific:JSON.stringify(result)
+                    Specific: x
                 })
             }
         })
@@ -728,7 +882,7 @@ class App extends React.Component {
                 Enter the user's address:
                 <input type="text" name='Address' onChange={this.myChangeHandler}/>
                 <input type='submit' value='Submit'/>
-                <p>{this.state.LookUpInfo}</p>
+                <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered />
             </form>
             <form id="Dispose" onSubmit={this.AuthDispose}>
                 Dispose unchecked vaccination
@@ -779,6 +933,7 @@ class App extends React.Component {
                     Enter the user's address:
                     <input type="text" name="Address" onChange={this.myChangeHandler}/>
                     <input type="submit" value="submit"></input>
+                    <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered />
                 </form>
             
                 <form id="SubmitInfo" onSubmit={this.HosSubmitInfo}>
@@ -821,7 +976,8 @@ class App extends React.Component {
                     Get your own vaccine passport here
                     <br/>
                     <br/>
-                    <p>{this.state.PassportInfo}</p>
+                    <Table columns={this.state.columnPassport} dataSource={this.state.PassportInfo} bordered/>
+                    
                     <br/>
                     <input type="submit" value="submit"></input>
                 </form>
@@ -839,7 +995,7 @@ class App extends React.Component {
                 Search for your specific vaccination here
                 <br/>
                 <br/>
-                <p>{this.state.Specific}</p>
+                <Table columns={this.state.columnSpecific} dataSource={this.state.Specific} bordered/>
                 <br/>
                 Enter the index of vaccination list:
                 <br/>
