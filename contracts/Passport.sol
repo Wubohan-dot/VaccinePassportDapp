@@ -170,8 +170,13 @@ contract Passport{
         emit AuthorityChangeToatalStatusEvent(addr, totalStatus);
     }
 
-    function AuthorityGetInjectionByID(uint index) public view isAuthority returns(Injection injection) {
-        return waitingList[msg.sender][index];
+    function AuthorityGetInjectionByID(uint index) public view isAuthority returns(uint256 _InjectionID,string memory _kind,address _ID,string memory _date,uint _injectedIndex,InjectionStatus _InjectionStatus) {
+        _InjectionID = waitingList[msg.sender][index].InjectionID;
+        _kind = waitingList[msg.sender][index].kind;
+        _ID = waitingList[msg.sender][index].ID;
+        _date = waitingList[msg.sender][index].date;
+        _injectedIndex = waitingList[msg.sender][index].injectedIndex;
+        _InjectionStatus = waitingList[msg.sender][index].injectionStatus;
     }
 
     function VaccinatedOneGetHisPassport() public view returns(address _ID, string memory _name, TotalStatus _totalStatus){

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Web3 from 'web3'
-import { Table, Tag, Space } from 'antd';
+import { Table } from 'antd';
 import './../css/index.css'
 
 class App extends React.Component {
@@ -18,6 +18,8 @@ class App extends React.Component {
             LookUpInfo:"",
             DisposeNum:0,
             DisposeProposal:0,
+            GetVaccineByIndex:0,
+            AuthVaccineIndex:"",
             Kind:"",
             Date:"",
             PassportInfo:[],
@@ -96,6 +98,23 @@ class App extends React.Component {
                     key: "status",
                 }
             ],
+            showAuth: 'none',
+            showHos: 'none',
+            showUser: 'none',
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none',
+            showHosDeliverPassport: 'none',
+            showHosLookUp: 'none',
+            showSubmitInfo: 'none',
+            showGetPassport: 'none',
+            showUserGetList: 'none',
+            showSpecific: 'none'
+
         }
 
         if(typeof web3 != 'undefined'){
@@ -106,12 +125,6 @@ class App extends React.Component {
             this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
          }
          const MyContract = web3.eth.contract([
-            {
-                "inputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
             {
                 "anonymous": false,
                 "inputs": [
@@ -311,33 +324,53 @@ class App extends React.Component {
                 "type": "function"
             },
             {
-                "constant": true,
-                "inputs": [],
-                "name": "AuthorityGetUncheckedInjectionList",
-                "outputs": [
+                "constant": false,
+                "inputs": [
                     {
-                        "internalType": "uint256[]",
-                        "name": "flist",
-                        "type": "uint256[]"
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
                     },
                     {
-                        "internalType": "uint256",
-                        "name": "cnt",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "totalCnt",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "herenumbersinWaitingList",
-                        "type": "uint256"
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
                     }
                 ],
+                "name": "deliverPassport",
+                "outputs": [],
                 "payable": false,
-                "stateMutability": "view",
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
+                    }
+                ],
+                "name": "grantAuthority",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
+                    }
+                ],
+                "name": "grantHospitals",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -374,6 +407,88 @@ class App extends React.Component {
                 ],
                 "payable": false,
                 "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "index",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "AuthorityGetInjectionByID",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_InjectionID",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_kind",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_ID",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_date",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_injectedIndex",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "enum Passport.InjectionStatus",
+                        "name": "_InjectionStatus",
+                        "type": "uint8"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "AuthorityGetUncheckedInjectionList",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "flist",
+                        "type": "uint256[]"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "cnt",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "totalCnt",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "herenumbersinWaitingList",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
                 "type": "function"
             },
             {
@@ -425,96 +540,6 @@ class App extends React.Component {
                 ],
                 "payable": false,
                 "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "VaccinatedOneGetHisPassport",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "_ID",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "_name",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "enum Passport.TotalStatus",
-                        "name": "_totalStatus",
-                        "type": "uint8"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "VaccinatedOneGetList",
-                "outputs": [
-                    {
-                        "internalType": "uint256[]",
-                        "name": "list",
-                        "type": "uint256[]"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "_name",
-                        "type": "string"
-                    }
-                ],
-                "name": "deliverPassport",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    }
-                ],
-                "name": "grantAuthority",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    }
-                ],
-                "name": "grantHospitals",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -577,12 +602,208 @@ class App extends React.Component {
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "VaccinatedOneGetHisPassport",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_ID",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "enum Passport.TotalStatus",
+                        "name": "_totalStatus",
+                        "type": "uint8"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "VaccinatedOneGetList",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "list",
+                        "type": "uint256[]"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
             }
         ])
-         this.state.ContractInstance = MyContract.at('0x645779853F5b849D54139CbFEf9EeF2A35467542')
+         this.state.ContractInstance = MyContract.at('0xA307db168dc0e6c9DdBc835a28ffEdFCac29852E')
 
          window.a = this.state
 
+    }
+
+    AuthClick = () => {
+        this.setState({
+            showAuth: 'block',
+            showHos: 'none',
+            showUser: 'none'
+        })
+    }
+
+    HosClick = () => {
+        this.setState({
+            showAuth: 'none',
+            showHos: 'block',
+            showUser: 'none'
+        })
+    }
+
+    UserClick = () => {
+        this.setState({
+            showAuth: 'none',
+            showHos: 'none',
+            showUser: 'block'
+        })
+    }
+
+    AuthDeliver = () => {
+        this.setState({
+            showAuthDeliverPassport: 'block',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthChangeStatus = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'block',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthGrantHospital = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'block',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthGrantAuthority = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'block',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthGL = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'block',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthDisposeVaccination = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'block',
+            showAuthLookUp: 'none'
+        })
+    }
+
+    AuthLookUp = () => {
+        this.setState({
+            showAuthDeliverPassport: 'none',
+            showChangeStatus: 'none',
+            showGrantHospital: 'none',
+            showGrantAuthority: 'none',
+            showGetList: 'none',
+            showDisposeVaccination: 'none',
+            showAuthLookUp: 'block'
+        })
+    }
+
+    HosDeliverPassport = () => {
+        this.setState({
+            showHosDeliverPassport: 'block',
+            showHosLookUp: 'none',
+            showSubmitInfo: 'none',
+        })
+    }
+
+    HosLookUp = () => {
+        this.setState({
+            showHosDeliverPassport: 'none',
+            showHosLookUp: 'block',
+            showSubmitInfo: 'none',
+        })
+    }
+
+    HosSubmitInformation = () => {
+        this.setState({
+            showHosDeliverPassport: 'none',
+            showHosLookUp: 'none',
+            showSubmitInfo: 'block',
+        })
+    }
+
+    UserGetPass = () => {
+        this.setState({
+            showGetPassport: 'block',
+            showUserGetList: 'none',
+            showSpecific: 'none'
+        })
+    }
+
+    UserGL = () => {
+        this.setState({
+            showGetPassport: 'none',
+            showUserGetList: 'block',
+            showSpecific: 'none'
+        })
+    }
+
+    UserSpecific = () => {
+        this.setState({
+            showGetPassport: 'none',
+            showUserGetList: 'none',
+            showSpecific: 'block'
+        })
     }
 
     myChangeHandler=(event)=>{
@@ -664,6 +885,30 @@ class App extends React.Component {
     AuthDispose=(event)=>{
         event.preventDefault()
         this.state.ContractInstance.AuthorityDisposeUncheckedInjection(this.state.DisposeNum,this.state.DisposeProposal,(err,result)=>{})
+    }
+    AuthGetVaccinationByIndex=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.AuthorityGetInjectionByID(this.state.GetVaccineByIndex, (error, result) => {
+            if(result != null) {
+                let info = JSON.parse(JSON.stringify(result))
+                console.log(info[1])
+                let infoo = {
+                    "VaccinationID": info[0],
+                    "VaccineKind": info[1],
+                    "ID": info[2],
+                    "date": info[3],
+                    "VaccinationIndex": info[4],
+                    "VaccinationStatus": info[5],
+                    key: 1
+                }
+                let x = []
+                x.push(infoo)
+                
+                this.setState({
+                    AuthVaccineIndex: x
+                })
+            }
+        })
     }
 
     HosSubmitInfo=(event)=>{
@@ -801,26 +1046,41 @@ class App extends React.Component {
     render(){
         return(
             <div>
+                <div>
+                    <header>
+                        <h1>Choose your own identity</h1>
+                        <br/>
+                        <button onClick={this.AuthClick}>Authority</button>
+                        <button onClick={this.HosClick}>Hospital</button>
+                        <button onClick={this.UserClick}>User</button>
+                    </header>
+                </div>
+
             <div>In js</div>
             <div className="block" style={this.myStyle}>
-               <b>Number of bets:</b> &nbsp;
+               <b>Total number of vaccination:</b> &nbsp;
                <span>{this.state.InjectionID}</span>
             </div>
             
-            <div id="AuthorityPart" >
+            <div id="AuthorityPart" style={{display:this.state.showAuth}}>
                 <h2>Here you are Authority</h2>
                 <nav>       
-                    <a onclick="getDeliverPassport()">DeliverPassport</a>
-                    <a onclick="getChangeTotalStatus()">ChangeTotalStatus</a>
-                    <a onclick="getGetList()">GetList</a>
-                    <a onclick="getGrantHospital()">GrantHospital</a>
-                    <a onclick="getGrantAuthority()">GrantAuthority</a>
-                    <a onclick="getLookUp()">LookUp</a>
+                    <a onClick={this.AuthDeliver}>DeliverPassport</a>
                     <br/>
-                    <a onclick="getDispose()">Dispose</a>
+                    <a onClick={this.AuthChangeStatus}>ChangeTotalStatus</a>
+                    <br/>
+                    <a onClick={this.AuthGrantHospital}>GrantHospital</a>
+                    <br/>
+                    <a onClick={this.AuthGrantAuthority}>GrantAuthority</a>
+                    <br/>
+                    <a onClick={this.AuthGL}>GetList</a>
+                    <br/>
+                    <a onClick={this.AuthDisposeVaccination}>Dispose</a>
+                    <br/>
+                    <a onClick={this.AuthLookUp}>LookUp</a>
                 </nav> 
             <section>
-            <form id="DeliverPassport" onSubmit={this.DeliverPassport}>
+            <form id="DeliverPassport" onSubmit={this.DeliverPassport} style={{display:this.state.showAuthDeliverPassport}}>
                 Deliver {this.state.Name}({this.state.Address}) a Passport here. 
                 <br/>
                 <br/>
@@ -834,7 +1094,7 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
             </form>
             
-            <form id="ChangeTotalStatus" onSubmit={this.AuthChangeTotalStatus}>
+            <form id="ChangeTotalStatus" onSubmit={this.AuthChangeTotalStatus} style={{display:this.state.showChangeStatus}}>
                 Change {this.state.Address} state to {this.state.TotalStatusToChange}
                 <br/>
                 <br/>
@@ -848,7 +1108,7 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
             </form>
             
-            <form id="GetList" onSubmit={this.AuthGetList}>
+            <form id="GetList" onSubmit={this.AuthGetList} style={{display:this.state.showGetList}}>
                 GetList here
                 <br/>
                 <br/>
@@ -856,7 +1116,7 @@ class App extends React.Component {
                 <br/>
                 <input type="submit" value="Get List"/>
             </form>
-            <form id="GrantHospital" onSubmit={this.AuthGrantHos}>
+            <form id="GrantHospital" onSubmit={this.AuthGrantHos} style={{display:this.state.showGrantHospital}}>
                 Grant Hospital {this.state.HosAddress} here
                 <br/>
                 <br/>
@@ -866,7 +1126,7 @@ class App extends React.Component {
                 <input type='submit' value='Submit'/>
             </form>
         
-            <form id="GrantHospital" onSubmit={this.AuthGrantAuth}>
+            <form id="GrantAuth" onSubmit={this.AuthGrantAuth} style={{display:this.state.showGrantAuthority}}>
                 Grant Authority {this.state.AuthAddress} here
                 <br/>
                 <br/>
@@ -875,17 +1135,26 @@ class App extends React.Component {
                 <input type="text" name="AuthAddress" onChange={this.myChangeHandler}/>
                 <input type='submit' value='Submit'/>
             </form>
-            <form id="LookUp" onSubmit={this.LookUp}>
+            <form id="LookUp" onSubmit={this.LookUp} style={{display:this.state.showAuthLookUp}}>
                 Look Up user's passport
                 <br/>
                 <br/>
                 Enter the user's address:
                 <input type="text" name='Address' onChange={this.myChangeHandler}/>
                 <input type='submit' value='Submit'/>
-                <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered />
+                <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered="block" />
             </form>
-            <form id="Dispose" onSubmit={this.AuthDispose}>
+            <form id="GetByIndex" onSubmit={this.AuthGetVaccinationByIndex} style={{display:this.state.showDisposeVaccination}}>
                 Dispose unchecked vaccination
+                <br/>
+                <br/>
+                Enter the index of the vaccination you want to inspect:
+                <br/>
+                <input type="number" name="GetVaccineByIndex" onChange={this.myChangeHandler}/>
+                <input type="submit" value="Submit" id="GetByIndex"/>
+                <Table columns={this.state.columnSpecific} dataSource={this.state.AuthVaccineIndex} bordered="block"/>
+            </form>
+            <form id="Dispose" onSubmit={this.AuthDispose} style={{display:this.state.showDisposeVaccination}}>
                 <br/>
                 <br/>
                 Enter the index of the vaccination waiting for dispose:
@@ -902,17 +1171,18 @@ class App extends React.Component {
             </section>
             </div>
 
-            <div id="HospitalPart" >
+            <div id="HospitalPart" style={{display:this.state.showHos}}>
             <h2>Here you are Hospital</h2>
             <nav>       
-                <a onclick="HosDeliverPassport()">DeliverPassport</a>
-                <a onclick="HosLookUp()">LookUp</a>
+                <a onClick={this.HosDeliverPassport}>DeliverPassport</a>
                 <br/>
-                <a onclick="SubmitInfo()">SubmitInfo</a>
+                <a onClick={this.HosLookUp}>LookUp</a>
+                <br/>
+                <a onClick={this.HosSubmitInformation}>SubmitInfo</a>
             
             </nav>
             <section>
-                <form id="HosDeliverPassport" onSubmit={this.DeliverPassport}>
+                <form id="HosDeliverPassport" onSubmit={this.DeliverPassport} style={{display:this.state.showHosDeliverPassport}}>
                     Hospital DeliverPassport here
                     <br/>
                     <br/>
@@ -926,17 +1196,17 @@ class App extends React.Component {
                     <input type="submit" value="submit"></input>
                 </form>
                 
-                <form id="HosLookUp" onSubmit={this.LookUp}>
+                <form id="HosLookUp" onSubmit={this.LookUp} style={{display:this.state.showHosLookUp}}>
                     Hospital look up here
                     <br/>
                     <br/>
                     Enter the user's address:
                     <input type="text" name="Address" onChange={this.myChangeHandler}/>
                     <input type="submit" value="submit"></input>
-                    <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered />
+                    <Table columns={this.state.columnLookUp} dataSource={this.state.LookUpInfo} bordered="block" />
                 </form>
             
-                <form id="SubmitInfo" onSubmit={this.HosSubmitInfo}>
+                <form id="SubmitInfo" onSubmit={this.HosSubmitInfo} style={{display:this.state.showSubmitInfo}}>
                 Submit Information here
                 <br/>
                 <br/>
@@ -960,29 +1230,29 @@ class App extends React.Component {
                 
             </section>
             </div>
-            <div id="UserPart" >
+            <div id="UserPart" style={{display:this.state.showUser}}>
             <h2>Here you are User</h2>
 
             <nav>       
-                <a onclick="GetPassport()">GetPassport</a>
+                <a onClick={this.UserGetPass}>GetPassport</a>
                 <br/>
-                <a onclick="UserGetList()">GetList</a>
+                <a onClick={this.UserGL}>GetList</a>
                 <br/>
-                <a onclick="Specific()">SpecificVaccine</a>
+                <a onClick={this.UserSpecific}>SpecificVaccine</a>
             
             </nav>
             <section>
-                <form id="GetPassport" onSubmit={this.UserGetPassport}>
+                <form id="GetPassport" onSubmit={this.UserGetPassport} style={{display:this.state.showGetPassport}}>
                     Get your own vaccine passport here
                     <br/>
                     <br/>
-                    <Table columns={this.state.columnPassport} dataSource={this.state.PassportInfo} bordered/>
+                    <Table columns={this.state.columnPassport} dataSource={this.state.PassportInfo} bordered="block"/>
                     
                     <br/>
                     <input type="submit" value="submit"></input>
                 </form>
                 
-                <form id="UserGetList" onSubmit={this.UserGetList}>
+                <form id="UserGetList" onSubmit={this.UserGetList} style={{display:this.state.showUserGetList}}>
                     Get your vaccination list here
                     <br/>
                     <br/>
@@ -991,11 +1261,11 @@ class App extends React.Component {
                     <input type="submit" value="submit"></input>
                 </form>
             
-                <form id="Specific" onSubmit={this.UserGetSpecific}>
+                <form id="Specific" onSubmit={this.UserGetSpecific} style={{display:this.state.showSpecific}}>
                 Search for your specific vaccination here
                 <br/>
                 <br/>
-                <Table columns={this.state.columnSpecific} dataSource={this.state.Specific} bordered/>
+                <Table columns={this.state.columnSpecific} dataSource={this.state.Specific} bordered="block"/>
                 <br/>
                 Enter the index of vaccination list:
                 <br/>
