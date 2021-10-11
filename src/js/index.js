@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import QRCode from 'qrcode'
 import Web3 from 'web3'
 import { Table } from 'antd';
 import './../css/index.css'
@@ -27,6 +28,7 @@ class App extends React.Component {
             Specific:"",
             SpecificIndex:0,
             TestSpecific:{},
+            QRURL:"",
             columnPassport: [
                 {
                     title: "Address",
@@ -113,7 +115,8 @@ class App extends React.Component {
             showSubmitInfo: 'none',
             showGetPassport: 'none',
             showUserGetList: 'none',
-            showSpecific: 'none'
+            showSpecific: 'none',
+            showGetPassportQR: 'none'
 
         }
 
@@ -125,6 +128,12 @@ class App extends React.Component {
             this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
          }
          const MyContract = web3.eth.contract([
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
             {
                 "anonymous": false,
                 "inputs": [
@@ -324,98 +333,6 @@ class App extends React.Component {
                 "type": "function"
             },
             {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "_name",
-                        "type": "string"
-                    }
-                ],
-                "name": "deliverPassport",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    }
-                ],
-                "name": "grantAuthority",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "addr",
-                        "type": "address"
-                    }
-                ],
-                "name": "grantHospitals",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "authorityAddr",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "kind",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "ID",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "date",
-                        "type": "string"
-                    }
-                ],
-                "name": "HospitalSubmitInfomation",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "success",
-                        "type": "bool"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
-            {
                 "constant": true,
                 "inputs": [
                     {
@@ -492,6 +409,42 @@ class App extends React.Component {
                 "type": "function"
             },
             {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "authorityAddr",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "kind",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "ID",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "date",
+                        "type": "string"
+                    }
+                ],
+                "name": "HospitalSubmitInfomation",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "success",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
                 "constant": true,
                 "inputs": [],
                 "name": "InjectionID",
@@ -540,6 +493,96 @@ class App extends React.Component {
                 ],
                 "payable": false,
                 "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "VaccinatedOneGetHisPassport",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_ID",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "enum Passport.TotalStatus",
+                        "name": "_totalStatus",
+                        "type": "uint8"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "VaccinatedOneGetList",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "list",
+                        "type": "uint256[]"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                    }
+                ],
+                "name": "deliverPassport",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
+                    }
+                ],
+                "name": "grantAuthority",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "addr",
+                        "type": "address"
+                    }
+                ],
+                "name": "grantHospitals",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -602,49 +645,9 @@ class App extends React.Component {
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "VaccinatedOneGetHisPassport",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "_ID",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "_name",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "enum Passport.TotalStatus",
-                        "name": "_totalStatus",
-                        "type": "uint8"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "VaccinatedOneGetList",
-                "outputs": [
-                    {
-                        "internalType": "uint256[]",
-                        "name": "list",
-                        "type": "uint256[]"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
             }
         ])
-         this.state.ContractInstance = MyContract.at('0xA307db168dc0e6c9DdBc835a28ffEdFCac29852E')
+         this.state.ContractInstance = MyContract.at('0x97a84Cda828989d13Afec0217761599F6Dc4542E')
 
          window.a = this.state
 
@@ -785,6 +788,16 @@ class App extends React.Component {
     UserGetPass = () => {
         this.setState({
             showGetPassport: 'block',
+            showGetPassportQR: 'none',
+            showUserGetList: 'none',
+            showSpecific: 'none'
+        })
+    }
+
+    UserGetPassQR = () => {
+        this.setState({
+            showGetPassport: 'none',
+            showGetPassportQR: 'block',
             showUserGetList: 'none',
             showSpecific: 'none'
         })
@@ -793,6 +806,7 @@ class App extends React.Component {
     UserGL = () => {
         this.setState({
             showGetPassport: 'none',
+            showGetPassportQR: 'none',
             showUserGetList: 'block',
             showSpecific: 'none'
         })
@@ -801,6 +815,7 @@ class App extends React.Component {
     UserSpecific = () => {
         this.setState({
             showGetPassport: 'none',
+            showGetPassportQR: 'none',
             showUserGetList: 'none',
             showSpecific: 'block'
         })
@@ -920,7 +935,7 @@ class App extends React.Component {
             }
         )
     }
-    
+
     UserGetPassport=(event)=>{
         event.preventDefault()
         this.state.ContractInstance.VaccinatedOneGetHisPassport((error,result)=>{
@@ -951,6 +966,45 @@ class App extends React.Component {
             }
         })
     }
+    
+    UserGetPassportQR=(event)=>{
+        event.preventDefault()
+        this.state.ContractInstance.VaccinatedOneGetHisPassport((error,result)=>{
+            if(result!=null){
+                let infoparse = JSON.parse(JSON.stringify(result))
+                let stat
+                if (parseInt(infoparse[2]) == 0) {
+                    stat = "Not vaccinated"
+                }
+                else if (parseInt(infoparse[2]) == 1) {
+                    stat = "Waiting for authorization"
+                }
+                else {
+                    stat = "Vaccinated"
+                }
+
+                let d = new Date()
+                let dString = d.toString()
+
+                let info=   "Address: " + infoparse[0] +
+                            ".......Name: " + infoparse[1]+
+                            ".......Health State: "+ stat +
+                            ".......This QR code is valid in 2 minutes, from "+ dString
+                console.log(info)
+                QRCode.toDataURL(info)
+                .then(url => {
+                    console.log(url)
+                    this.setState({
+                        QRURL: url 
+                    })
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+        })
+    }
+
     UserGetList=(event)=>{
         event.preventDefault()
         this.state.ContractInstance.VaccinatedOneGetList((error,result)=>{
@@ -1236,17 +1290,30 @@ class App extends React.Component {
             <nav>       
                 <a onClick={this.UserGetPass}>GetPassport</a>
                 <br/>
+                <a onClick={this.UserGetPassQR}>GetPassportQR</a>
+                <br/>
                 <a onClick={this.UserGL}>GetList</a>
                 <br/>
                 <a onClick={this.UserSpecific}>SpecificVaccine</a>
             
             </nav>
             <section>
+                
                 <form id="GetPassport" onSubmit={this.UserGetPassport} style={{display:this.state.showGetPassport}}>
                     Get your own vaccine passport here
                     <br/>
                     <br/>
                     <Table columns={this.state.columnPassport} dataSource={this.state.PassportInfo} bordered="block"/>
+                    
+                    <br/>
+                    <input type="submit" value="submit"></input>
+                </form>
+
+                <form id="GetPassportQR" onSubmit={this.UserGetPassportQR} style={{display:this.state.showGetPassportQR}}>
+                    Get your own vaccine passport in QR form here
+                    <br/>
+                    <br/>
+                    <img id="qrcode" src={this.state.QRURL}></img>
                     
                     <br/>
                     <input type="submit" value="submit"></input>
