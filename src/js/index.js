@@ -1110,7 +1110,7 @@ class App extends React.Component {
                     </header>
                 </div>
 
-            <div>In js</div>
+            
             <div className="block" style={this.myStyle}>
                <b>Total number of vaccination:</b> &nbsp;
                <span>{this.state.InjectionID}</span>
